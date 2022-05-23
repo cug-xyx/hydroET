@@ -1,8 +1,6 @@
-# 输入参数
-# 1. 空气温度 Ta
-# 2. 露点温度 Td
-# 3. 风速     U
-# 4. 净辐射   Rn
+# Author: Yuxuan Xie
+# Date  : 2022-05-23
+
 
 inverse <- function (f,
                     lower = -100,
@@ -12,6 +10,12 @@ inverse <- function (f,
                        tol = 1e-05 # iterative accuracy
   )$root
 }
+
+
+cal_lambda <- function(Tair) {
+  return((2500 - Tair * 2.2)/1000)
+}
+
 
 cal_gma <- function(Pa = NULL,
                     lambda = NULL) {
@@ -31,6 +35,22 @@ cal_es <- function(Tair) {
   es = 0.6108 * exp((17.27 * Tair) / (Tair + 237.3))
 }
 
+cal_ea <- function(Ta, RH = NULL,
+                   Tdew = NULL,
+                   Pa = NULL, q = NULL) {
+  # need a exception handing
+  if (!is.null(RH)) return(cal_es(Ta) * RH / 100)
+
+  if (is.null(q)) {
+    return(cal_es(Tdew))
+  } else {
+    if (is.null(Pa)) Pa = 101.3
+
+    return(q * Pa / 0.622)
+  }
+}
+
+
 
 cal_delta <- function(Tair) {
   dlt = 4098 * (0.6108 * exp((17.27 * Tair)/(Tair + 237.3)))/(Tair + 237.3)^2
@@ -46,8 +66,9 @@ cal_U10_to_U2 <- function(U10) {
 
 cal_Twb <- function(Td,
                     Ta,
+                    Pa = NULL,
                     gma = NULL) {
-  if (is.null(gma)) gma = cal_gma()
+  if (is.null(gma)) gma = cal_gma(Pa = Pa)
 
   es_Td = cal_es(Td) # es at dew-point temperature [kPa]
 
@@ -64,8 +85,9 @@ cal_Twb <- function(Td,
 }
 
 cal_Tdry <- function(Twb,
+                     Pa = NULL,
                      gma = NULL) {
-  if (is.null(gma)) gma = cal_gma()
+  if (is.null(gma)) gma = cal_gma(Pa = Pa)
 
   Tdry = Twb + cal_es(Twb) / gma
 
@@ -77,8 +99,9 @@ cal_Ep_max <- function(Tdry,
                        Rn,
                        U2,
                        G = NULL,
+                       Pa = NULL,
                        gma = NULL) {
-  if(is.null(gma)) gma = cal_gma() # gamma
+  if(is.null(gma)) gma = cal_gma(Pa = Pa) # gamma
 
   dlt_Tdry = cal_delta(Tdry) # delta of Tdry
   es_Tdry  = cal_es(Tdry)    # es at dry environment temperature [deg]
@@ -95,6 +118,115 @@ cal_Ep_max <- function(Tdry,
   return(Ep_max)
 }
 
+
+cal_Tws <- function(Rn,
+                    Ep,
+                    Ta,
+                    ea,
+                    Pa = NULL,
+                    gma = NULL,
+                    G = NULL) {
+  if (is.null(gma)) gma = cal_gma(Pa = Pa)
+
+  if (is.null(G)) {
+    energy = Rn
+  } else {
+    energy = Rn - G
+  }
+
+  beta_p = (energy - Ep) / Ep # bowen ratio of the well-watered patch
+
+  # function
+  # beta_p = gma * (Tws - Ta)/(0.6108 * exp((17.27 * Tws) / (Tws + 237.3)) - ea)
+
+  # solve using the inverse function
+  func <- function(Tws) beta_p * 0.6108 * exp((17.27*Tws)/(Tws+237.3)) - gma*Tws
+  y = beta_p * ea - gma * Ta
+
+  inv <- inverse(func, 0.0001, 100)
+
+  sapply(y, FUN = inv)
+}
+
+
+cal_Ew <- function(Tw,
+                   Rn,
+                   G = NULL,
+                   Pa = NULL,
+                   gma = NULL) {
+  if (is.null(gma)) gma = cal_gma(Pa = Pa)
+
+  if (is.null(G)) {
+    energy = Rn
+  } else {
+    energy = Rn - G
+  }
+
+  alpha = 1.26 # Priestley-Taylor coefficient
+
+  dlt_Tw = cal_delta(Tw)
+
+  Ew = alpha * dlt_Tw / (dlt_Tw + gma) * energy
+  return(Ew)
+}
+
+cal_Ep <- function(Ta,
+                   Rn,
+                   U2,
+                   ea,
+                   G = NULL,
+                   Pa = NULL,
+                   gma = NULL) {
+  if (is.null(gma)) gma = cal_gma(Pa = Pa)
+
+  if (is.null(G)) {
+    energy = Rn
+  } else {
+    energy = Rn - G
+  }
+
+  fu = 2.6 * (1 + 0.54 * U2) # empirical wind function [mm d-1 kPa-1]
+
+  es = cal_es(Ta)
+
+  dlt = cal_delta(Ta)
+
+  Ep = dlt / (dlt + gma) * energy + gma / (dlt + gma) * fu * (es - ea)
+
+  return(Ep)
+}
+
+
+cal_ET_by_CR_model <- function(Ta,
+                               Td,
+                               U2,
+                               Rn,
+                               G = NULL,
+                               gma = NULL,
+                               Pa = NULL,
+                               q = NULL,
+                               RH = NULL) {
+  if (is.null(gma)) gma = cal_gma(Pa = Pa)
+
+  ea = cal_ea(Ta = Ta, RH = RH, Tdew = Td, Pa = Pa, q = q)
+
+  Twb = cal_Twb(Td = Td, Ta = Ta, gma = gma)
+  Tdry = cal_Tdry(Twb = Twb, gma = gma)
+
+  Ep_max = cal_Ep_max(Tdry = Tdry, Rn = Rn, U2 = U2, G = G, gma = gma)
+  Ep = cal_Ep(Ta = Ta, Rn = Rn, U2 = U2, ea = ea, G = G, gma = gma)
+
+  Tws = cal_Tws(Rn = Rn, Ep = Ep, Ta = Ta, ea = ea, gma = gma, G = G)
+  Ew = cal_Ew(Tw = Tws, Rn = Rn, G = G, gma = gma)
+
+  # function
+  # y = (2 - X) * X ^ 2
+  # y = ET / Ep
+  X = (Ep_max - Ep) / (Ep_max - Ew) * Ew/Ep
+
+  ET = Ep * (2 - X) * X ^ 2
+  return(ET)
+}
 
 
 
