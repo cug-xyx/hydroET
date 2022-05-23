@@ -1,7 +1,19 @@
 # Author: Yuxuan Xie
-# Date  : 2022-05-23
+# Date  : 2022-05-22
 
 
+#' Derive the inverse function
+#'
+#' @param f raw function
+#' @param lower the lower end points of the interval to be searched
+#' @param upper the upper end points of the interval to be searched
+#'
+#' @return result of inverse function
+#' @export
+#'
+#' @examples
+#' inv = inverse(x ^ 2)
+#' inv(4)
 inverse <- function (f,
                     lower = -100,
                     upper = 100) {
@@ -12,29 +24,72 @@ inverse <- function (f,
 }
 
 
+#' Calculate lantent heat of vaporization
+#'
+#' @param Tair air temperature [degC]
+#'
+#' @return lambda, latent heat of vaporization, about [2.45 MJ kg-1]
+#' @export
+#'
+#' @examples
+#' cal_lambda(20)
 cal_lambda <- function(Tair) {
   return((2500 - Tair * 2.2)/1000)
 }
 
 
+#' Calculate psychrometric constant
+#'
+#' @param Pa pressure [kPa]
+#' @param lambda lantent heat of vaporization [MJ kg-1]
+#'
+#' @return psychrometric constant [kPa degC-1]
+#' @export
+#'
+#' @examples
+#' cal_gma()
 cal_gma <- function(Pa = NULL,
                     lambda = NULL) {
   if (is.null(lambda)) lambda = 2.45  # latent heat of vaporization [MJ kg-1]
   if (is.null(Pa))     Pa     = 101.3 # a standard atmospheric pressure [kPa]
 
-  cp      = 0.001013 # specific heat at constant pressure [MJ kg-1 deg-1]
+  cp      = 0.001013 # specific heat at constant pressure [MJ kg-1 degC-1]
   epsilon = 0.622    # ratio molecular weight of water vapor/dry air
 
-  gma = (cp * Pa) / (epsilon * lambda) # psychrometric constant [kPa deg-1]
+  gma = (cp * Pa) / (epsilon * lambda) # psychrometric constant [kPa degC-1]
 
   return(gma)
 }
 
+
+#' Calculate saturation vapor pressure
+#'
+#' @param Tair air temperature [degC]
+#'
+#' @return saturation vapor pressure [kPa]
+#' @export
+#'
+#' @examples
+#' cal_es(20)
 cal_es <- function(Tair) {
   # saturation vapour pressure at the air temperature Tair [kPa]
   es = 0.6108 * exp((17.27 * Tair) / (Tair + 237.3))
 }
 
+
+#' Calculate actual vapor pressure
+#'
+#' @param Ta air temperature [degC]   (method_1 param)
+#' @param RH relative humidity [%]    (method_1 param)
+#' @param Tdew dew-point temperature  (method_2 param)
+#' @param Pa pressure [kPa]           (method_2 param)
+#' @param q specif humidity [kg kg-1] (method_3 param)
+#'
+#' @return actual vapor pressure [kPa]
+#' @export
+#'
+#' @examples
+#' cal_ea(q = 0.5)
 cal_ea <- function(Ta, RH = NULL,
                    Tdew = NULL,
                    Pa = NULL, q = NULL) {
@@ -51,19 +106,49 @@ cal_ea <- function(Ta, RH = NULL,
 }
 
 
-
+#' Calculate the slope of the saturation vapor pressure curve at certain air
+#' temperature Tair
+#'
+#' @param Tair air temperature [degC]
+#'
+#' @return slope (delta) [kPa degC-1]
+#' @export
+#'
+#' @examples
+#' cal_delta(20)
 cal_delta <- function(Tair) {
   dlt = 4098 * (0.6108 * exp((17.27 * Tair)/(Tair + 237.3)))/(Tair + 237.3)^2
   return(dlt)
 }
 
 
+#' Converted 10m wind speed to 2m wind speed
+#'
+#' @param U10 10 meters wind speed [m s-1]
+#'
+#' @return 2 meters wind speed [m s-1]
+#' @export
+#'
+#' @examples
+#' cal_U10_to_U2(5)
 cal_U10_to_U2 <- function(U10) {
   U2 = U10 * 4.87/log(67.8 * 10 - 5.42)
   return(U2)
 }
 
 
+#' Calculate wet-bulb temperature
+#'
+#' @param Td dew-point temperature [degC]
+#' @param Ta air temperature [degC]
+#' @param Pa pressure [kPa]
+#' @param gma psychrometric constant [kPa degC-1]
+#'
+#' @return wet-bulb temperature [degC]
+#' @export
+#'
+#' @examples
+#' cal_Twb(10, 20)
 cal_Twb <- function(Td,
                     Ta,
                     Pa = NULL,
@@ -84,6 +169,18 @@ cal_Twb <- function(Td,
   sapply(y, FUN = inv)
 }
 
+
+#' Calculate dry environment temperature
+#'
+#' @param Twb wet-bulb temperature [degC]
+#' @param Pa pressure [kPa]
+#' @param gma psychrometric constant [kPa degC-1]
+#'
+#' @return dry environment temperature [degC]
+#' @export
+#'
+#' @examples
+#' cal_Tdry(15)
 cal_Tdry <- function(Twb,
                      Pa = NULL,
                      gma = NULL) {
@@ -95,6 +192,20 @@ cal_Tdry <- function(Twb,
 }
 
 
+#' Calculate maximum value of potential evapotranspiration in dry environment
+#'
+#' @param Tdry dry environment temperature [degC]
+#' @param Rn net radiation [W m-2]
+#' @param U2 2 meters wind speed [m s-1]
+#' @param G soil heat flux [W m-2]
+#' @param Pa pressure [kPa]
+#' @param gma psychrometric constant [kPa degC-1]
+#'
+#' @return max value of potential evapotranspiration in dry environment [mm d-1]
+#' @export
+#'
+#' @examples
+#' cal_Ep_max(Tdry = 25, Rn = 50, U2 = 3)
 cal_Ep_max <- function(Tdry,
                        Rn,
                        U2,
@@ -104,7 +215,7 @@ cal_Ep_max <- function(Tdry,
   if(is.null(gma)) gma = cal_gma(Pa = Pa) # gamma
 
   dlt_Tdry = cal_delta(Tdry) # delta of Tdry
-  es_Tdry  = cal_es(Tdry)    # es at dry environment temperature [deg]
+  es_Tdry  = cal_es(Tdry)    # es at dry environment temperature [degC]
   fu = 2.6 * (1 + 0.54 * U2) # empirical wind function [mm d-1 kPa-1]
 
   # available energy
@@ -114,11 +225,29 @@ cal_Ep_max <- function(Tdry,
     energy = Rn - G
   )
 
-  Ep_max = dlt_Tdry * energy/(dlt_Tdry+gma) + gma/(dlt_Tdry+gma) * fu * es_Tdry
+  coef_W2mm = 0.0864 / cal_lambda(Tdry)
+
+  Ep_max = dlt_Tdry * energy * coef_W2mm / (dlt_Tdry + gma) +
+    gma / (dlt_Tdry + gma) * fu * es_Tdry
   return(Ep_max)
 }
 
 
+#' Calculate wet surface temperature
+#'
+#' @param Rn net radiation [W m-2]
+#' @param Ep potential evapotranspiration [mm d-1]
+#' @param Ta air temperature [degC]
+#' @param ea actual vapor pressure [kPa]
+#' @param Pa pressure [kPa]
+#' @param gma psychrometric constant [kPa degC-1]
+#' @param G soil heat flux [W m-2]
+#'
+#' @return wet surface temperature [degC]
+#' @export
+#'
+#' @examples
+#' cal_Tws(Rn = 50, Ep = 5, Ta = 20, ea = 0.3)
 cal_Tws <- function(Rn,
                     Ep,
                     Ta,
@@ -134,7 +263,9 @@ cal_Tws <- function(Rn,
     energy = Rn - G
   }
 
-  beta_p = (energy - Ep) / Ep # bowen ratio of the well-watered patch
+  coef_W2mm = 0.0864 / cal_lambda(Ta)
+
+  beta_p = (energy - Ep) *coef_W2mm / Ep # bowen ratio of the well-watered patch
 
   # function
   # beta_p = gma * (Tws - Ta)/(0.6108 * exp((17.27 * Tws) / (Tws + 237.3)) - ea)
@@ -149,6 +280,19 @@ cal_Tws <- function(Rn,
 }
 
 
+#' Calculate evapotranspiration by Priestley-Taylor (PT) model
+#'
+#' @param Tw wet environment temperature [degC]
+#' @param Rn net radiation [W m-2]
+#' @param G soil heat flux [W m-2]
+#' @param Pa pressure [kPa]
+#' @param gma psychrometric constant [kPa degC-1]
+#'
+#' @return evapotranspiration calculated by Priestley-Taylor model [mm d-1]
+#' @export
+#'
+#' @examples
+#' cal_Ew(Tw = 10, Rn = 50)
 cal_Ew <- function(Tw,
                    Rn,
                    G = NULL,
@@ -166,10 +310,27 @@ cal_Ew <- function(Tw,
 
   dlt_Tw = cal_delta(Tw)
 
-  Ew = alpha * dlt_Tw / (dlt_Tw + gma) * energy
+  coef_W2mm = 0.0864 / cal_lambda(Tw)
+
+  Ew = alpha * dlt_Tw / (dlt_Tw + gma) * energy * coef_W2mm
   return(Ew)
 }
 
+#' Calculate potential evapotranspiration by Penman 1948 model
+#'
+#' @param Ta air temperature [degC]
+#' @param Rn net radiation [W m-2]
+#' @param U2 2 meters wind speed [m s-1]
+#' @param ea actual vapor pressure [kPa]
+#' @param G soil heat flux [W m-2]
+#' @param Pa pressure [kPa]
+#' @param gma psychrometric constant [kPa degC-1]
+#'
+#' @return potential evapotranspiration calculated by Penman 1948 model [mm d-1]
+#' @export
+#'
+#' @examples
+#' cal_Ep(Ta = 20, Rn = 50, U2 = 5, ea = 0.3)
 cal_Ep <- function(Ta,
                    Rn,
                    U2,
@@ -191,12 +352,31 @@ cal_Ep <- function(Ta,
 
   dlt = cal_delta(Ta)
 
-  Ep = dlt / (dlt + gma) * energy + gma / (dlt + gma) * fu * (es - ea)
+  coef_W2mm = 0.0864 / cal_lambda(Ta)
+
+  Ep = dlt / (dlt + gma) * energy*coef_W2mm + gma / (dlt + gma) * fu * (es - ea)
 
   return(Ep)
 }
 
 
+#' Calculate evapotranspiration by calibration-free complementary relationship model
+#'
+#' @param Ta air temperature [degC]
+#' @param Td dew-point temperature [degC]
+#' @param U2 2 meters wind speed [m s-1]
+#' @param Rn net radiation [W m-2]
+#' @param G soil heat flux [W m-2]
+#' @param gma psychrometric constant [kPa degC-1]
+#' @param Pa pressure [kPa]
+#' @param q specific humidity [kg kg-1]
+#' @param RH relative humidity [%]
+#'
+#' @return evapotranspiration calculated by calibration-free CR model [mm d-1]
+#' @export
+#'
+#' @examples
+#' cal_ET_by_CR_model(Ta = 20, Td = 8, U2 = 3, Rn = 50)
 cal_ET_by_CR_model <- function(Ta,
                                Td,
                                U2,
@@ -227,7 +407,6 @@ cal_ET_by_CR_model <- function(Ta,
   ET = Ep * (2 - X) * X ^ 2
   return(ET)
 }
-
 
 
 
