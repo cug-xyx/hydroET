@@ -1,11 +1,13 @@
 # hydroET
-Scripts for calculating evapotranspiration
+An R package for calculating evapotranspiration
 
 - **Calibration-free complementary relationship (CR) model**
+- Penman 1948 model
+- Priestley-Taylor model
 
 ## TO DO
 
-- [ ] Accuracy of inverse function to derive $T_{ws}$ and  $T_{wb}$
+- [ ] Accuracy of inverse function to derive `Tws`and`Twb`
 
 ## References
 
