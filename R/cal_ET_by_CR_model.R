@@ -12,14 +12,15 @@
 #' @export
 #'
 #' @examples
-#' inv = inverse(x ^ 2)
+#' inv = inverse(function(x) x ^ 2)
 #' inv(4)
 inverse <- function (f,
-                    lower = -100,
-                    upper = 100) {
-  function (y) uniroot((function (x) f(x) - y),
+                    lower = -1000000,
+                    upper = 10000000) {
+  function (y) stats::uniroot((function (x) f(x) - y),
                        lower = lower, upper = upper,
-                       tol = 1e-05 # iterative accuracy
+                       tol = 1e-15, # iterative accuracy
+                       extendInt = 'yes'
   )$root
 }
 
@@ -79,11 +80,11 @@ cal_es <- function(Tair) {
 
 #' Calculate actual vapor pressure
 #'
-#' @param Ta air temperature [degC]   (method_1 param)
-#' @param RH relative humidity [%]    (method_1 param)
-#' @param Tdew dew-point temperature  (method_2 param)
-#' @param Pa pressure [kPa]           (method_2 param)
-#' @param q specif humidity [kg kg-1] (method_3 param)
+#' @param Ta air temperature [degC]
+#' @param RH relative humidity [\%]
+#' @param Tdew dew-point temperature [degC]
+#' @param Pa pressure [kPa]
+#' @param q specif humidity [kg kg-1]
 #'
 #' @return actual vapor pressure [kPa]
 #' @export
@@ -134,6 +135,15 @@ cal_delta <- function(Tair) {
 cal_U10_to_U2 <- function(U10) {
   U2 = U10 * 4.87/log(67.8 * 10 - 5.42)
   return(U2)
+}
+
+
+cal_q2Td <- function(q, Pa = NULL) {
+  ea = cal_ea(q = q, Pa = Pa)
+
+  func <- function(Tdew) 0.6108 * exp((17.27 * Tdew) / (Tdew + 237.3))
+  inv = inverse(func, lower = 0.1, upper = 1)
+  sapply(ea, FUN = inv)
 }
 
 
@@ -265,18 +275,19 @@ cal_Tws <- function(Rn,
 
   coef_W2mm = 0.0864 / cal_lambda(Ta)
 
-  beta_p = (energy - Ep) *coef_W2mm / Ep # bowen ratio of the well-watered patch
+  beta_p = (energy *coef_W2mm - Ep) / Ep # bowen ratio of the well-watered patch
 
   # function
   # beta_p = gma * (Tws - Ta)/(0.6108 * exp((17.27 * Tws) / (Tws + 237.3)) - ea)
 
   # solve using the inverse function
-  func <- function(Tws) beta_p * 0.6108 * exp((17.27*Tws)/(Tws+237.3)) - gma*Tws
+  func <- function(Tws, beta_p, gma) beta_p * 0.6108 * exp((17.27*Tws)/(Tws+237.3)) - gma*Tws
   y = beta_p * ea - gma * Ta
 
-  inv <- inverse(func, 0.0001, 100)
-
-  sapply(y, FUN = inv)
+  inv <- inverse(func, lower = -10, upper = 100)
+  browser()
+  df = data.frame(Tws = sapply(y, FUN = inv))
+  dplyr::mutate(df, Tws = ifelse(Tws <= Ta, Tws, Ta))$Tws
 }
 
 
@@ -370,7 +381,7 @@ cal_Ep <- function(Ta,
 #' @param gma psychrometric constant [kPa degC-1]
 #' @param Pa pressure [kPa]
 #' @param q specific humidity [kg kg-1]
-#' @param RH relative humidity [%]
+#' @param RH relative humidity [\%]
 #'
 #' @return evapotranspiration calculated by calibration-free CR model [mm d-1]
 #' @export
@@ -381,6 +392,7 @@ cal_ET_by_CR_model <- function(Ta,
                                Td,
                                U2,
                                Rn,
+                               Ep = NULL,
                                G = NULL,
                                gma = NULL,
                                Pa = NULL,
@@ -394,7 +406,9 @@ cal_ET_by_CR_model <- function(Ta,
   Tdry = cal_Tdry(Twb = Twb, gma = gma)
 
   Ep_max = cal_Ep_max(Tdry = Tdry, Rn = Rn, U2 = U2, G = G, gma = gma)
-  Ep = cal_Ep(Ta = Ta, Rn = Rn, U2 = U2, ea = ea, G = G, gma = gma)
+  if (is.null(Ep)) {
+    Ep = cal_Ep(Ta = Ta, Rn = Rn, U2 = U2, ea = ea, G = G, gma = gma)
+  }
 
   Tws = cal_Tws(Rn = Rn, Ep = Ep, Ta = Ta, ea = ea, gma = gma, G = G)
   Ew = cal_Ew(Tw = Tws, Rn = Rn, G = G, gma = gma)

@@ -7,15 +7,15 @@
 cal_ea(Ta, RH = NULL, Tdew = NULL, Pa = NULL, q = NULL)
 }
 \arguments{
-\item{Ta}{air temperature [degC]   (method_1 param)}
+\item{Ta}{air temperature [degC]}
 
-\item{RH}{relative humidity [%]    (method_1 param)}
+\item{RH}{relative humidity [\%]}
 
-\item{Tdew}{dew-point temperature  (method_2 param)}
+\item{Tdew}{dew-point temperature [degC]}
 
-\item{Pa}{pressure [kPa]           (method_2 param)}
+\item{Pa}{pressure [kPa]}
 
-\item{q}{specif humidity [kg kg-1] (method_3 param)}
+\item{q}{specif humidity [kg kg-1]}
 }
 \value{
 actual vapor pressure [kPa]

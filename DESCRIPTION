@@ -4,8 +4,11 @@ Title: Functions for calculating evapotranspiration by calibration-free compleme
 Version: 0.1.0
 Author: Yuxuan Xie
 Maintainer: Yuxuan Xie <xieyx@cug.edu.cn>
-Description: An R package for calculating evapotranspiration and other interesting functions
-License: What license is it under?
+Description: An R package for calculating evapotranspiration and other interesting functions.
+License: GPL (>= 3) + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.2
+Imports: 
+    dplyr,
+    stats

@@ -9,6 +9,7 @@ cal_ET_by_CR_model(
   Td,
   U2,
   Rn,
+  Ep = NULL,
   G = NULL,
   gma = NULL,
   Pa = NULL,
@@ -33,7 +34,7 @@ cal_ET_by_CR_model(
 
 \item{q}{specific humidity [kg kg-1]}
 
-\item{RH}{relative humidity [%]}
+\item{RH}{relative humidity [\%]}
 }
 \value{
 evapotranspiration calculated by calibration-free CR model [mm d-1]

@@ -4,7 +4,7 @@
 \alias{inverse}
 \title{Derive the inverse function}
 \usage{
-inverse(f, lower = -100, upper = 100)
+inverse(f, lower = 1e-08, upper = 1e+07)
 }
 \arguments{
 \item{f}{raw function}
@@ -20,6 +20,6 @@ result of inverse function
 Derive the inverse function
 }
 \examples{
-inv = inverse(x ^ 2)
+inv = inverse(function(x) x ^ 2)
 inv(4)
 }
