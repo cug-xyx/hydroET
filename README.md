@@ -2,7 +2,7 @@
 
 An R package related to evapotranspiration research
 
-## ET (PET) model
+## (Potential) evapotranspiration model
 
 | Function name   | Model name                                                 | Type |
 | --------------- | ---------------------------------------------------------- | ---- |
