@@ -1,11 +1,27 @@
-library(tidyverse)
-
-# 降雨的最大值要
-
+#' Title Drawing rainfall runoff map based on ggplot2
+#'
+#' @param d input data [data.frame]
+#' @param date Column name of date [character]
+#' @param Q column name of runoff [character]
+#' @param prcp column name of precipitation [character]
+#' @param ymax Y-axis maximum, also second abscissa axis position
+#' @param prcp_color fill color for rainfall
+#'
+#' @importFrom  magrittr `%>%` `%<>%`
+#' @import dplyr ggplot2
+#'
+#' @return rainfall runoff map based on ggplot2
+#' @export
+#'
+#' @examples
+#'  d <- data.frame(date = seq(as.POSIXct('2022-05-02'),
+#'                         as.POSIXct('2022-05-05'), by = 'day'),
+#'                  Q    = seq(10, 40, 10),
+#'                  P    = c(1, 2, 0, 2))
+#'  ggRunoff(d, date = 'date', Q = 'Q', prcp = 'P')
 ggRunoff <- function(d, date, Q, prcp,
                      ymax = NULL,
                      prcp_color = NULL) {
-  library(magrittr)
 
   d %<>%
     rename(date = {{date}},
@@ -16,7 +32,7 @@ ggRunoff <- function(d, date, Q, prcp,
   if (is.null(prcp_color)) prcp_color = 'blue'
 
   d %<>%
-    mutate(tile_point = (ymax - P / 2))        # 计算 geom_tile 的中心点 max(Q) => 输入参数
+    mutate(tile_point = (ymax - P / 2)) # 计算 geom_tile 的中心点 max(Q) => 输入参数
 
   d %>%
   ggplot(aes(x = date)) +
@@ -32,13 +48,6 @@ ggRunoff <- function(d, date, Q, prcp,
       )
     )
 }
-
-# d <- tibble(date = seq(as.POSIXct('2022-05-02'),
-#                        as.POSIXct('2022-05-05'), by = 'day'),
-#             Q    = seq(10, 40, 10),
-#             P    = c(1, 2, 0, 2))
-#
-# ggRunoff(d, date = 'date', Q = 'Q', prcp = 'P')
 
 
 

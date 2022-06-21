@@ -1,14 +1,18 @@
 # hydroET
 
-An R package for calculating evapotranspiration
+An R package related to evapotranspiration research
 
-- **Calibration-free complementary relationship (CR) model**
-- Penman 1948 model
-- Priestley-Taylor model
+## ET (PET) model
+
+| Function name   | Model name                                                 | Type |
+| --------------- | ---------------------------------------------------------- | ---- |
+| `ET_CR_Ma`      | **Calibration-free complementary relationship (CR) model** | ET   |
+| `ET_Penman1948` | Penman 1948 model                                          | PET  |
+| `ET_PT1972`     | Priestley-Taylor model                                     | PET  |
 
 ## TO DO
 
-- [ ] Accuracy of inverse function to derive `Tws`and`Twb`
+- [x] Accuracy of inverse function to derive `Tws`and`Twb`
 
 ## References
 
