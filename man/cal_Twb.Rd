@@ -2,7 +2,7 @@
 % Please edit documentation in R/ET_params.R
 \name{cal_Twb}
 \alias{cal_Twb}
-\title{Title Calculate wet-bulb temperature}
+\title{Calculate wet-bulb temperature}
 \usage{
 cal_Twb(VPD, Ta, Pa = 101.325)
 }
@@ -17,7 +17,7 @@ cal_Twb(VPD, Ta, Pa = 101.325)
 wet-bulb temperature [degC]
 }
 \description{
-Title Calculate wet-bulb temperature
+Calculate wet-bulb temperature
 }
 \examples{
 cal_Twb(0.5, 20)

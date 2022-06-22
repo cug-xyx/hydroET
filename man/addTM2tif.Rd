@@ -2,7 +2,7 @@
 % Please edit documentation in R/TM4TIF.R
 \name{addTM2tif}
 \alias{addTM2tif}
-\title{Title}
+\title{Add time attribute to raster}
 \usage{
 addTM2tif(tif_path, csv_path)
 }
@@ -15,7 +15,7 @@ addTM2tif(tif_path, csv_path)
 a raster with time attr
 }
 \description{
-Title
+Add time attribute to raster
 }
 \examples{
 # addTM2tif('inst/data/raw/PML_V2_Ec.tif',

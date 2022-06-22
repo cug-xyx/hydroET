@@ -2,7 +2,7 @@
 % Please edit documentation in R/ET_Penman.R
 \name{ET_Penman1948_max}
 \alias{ET_Penman1948_max}
-\title{Title Calculate maximum value of potential evapotranspiration in dry environment}
+\title{Calculate maximum value of potential evapotranspiration in dry environment}
 \usage{
 ET_Penman1948_max(Tdry, Rn, U2, Pa = 101.325, Ta = NULL, G = NULL)
 }
@@ -23,7 +23,7 @@ ET_Penman1948_max(Tdry, Rn, U2, Pa = 101.325, Ta = NULL, G = NULL)
 max value of potential evapotranspiration in dry environment [mm d-1]
 }
 \description{
-Title Calculate maximum value of potential evapotranspiration in dry environment
+Calculate maximum value of potential evapotranspiration in dry environment
 }
 \examples{
 ET_Penman1948_max(35, 50, 2)

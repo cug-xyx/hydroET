@@ -2,7 +2,7 @@
 % Please edit documentation in R/ET_params.R
 \name{cal_U2}
 \alias{cal_U2}
-\title{Title Converted zm wind speed to 2m wind speed}
+\title{Converted zm wind speed to 2m wind speed}
 \usage{
 cal_U2(Uz, z.wind = 10)
 }
@@ -15,7 +15,7 @@ cal_U2(Uz, z.wind = 10)
 2 meters wind speed [m s-1]
 }
 \description{
-Title Converted zm wind speed to 2m wind speed
+Converted zm wind speed to 2m wind speed
 }
 \examples{
 cal_U2(6)

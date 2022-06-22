@@ -2,7 +2,7 @@
 % Please edit documentation in R/ET_params.R
 \name{VPD2Td}
 \alias{VPD2Td}
-\title{Title Convert vapor pressure deficit to dew-point temperature}
+\title{Convert vapor pressure deficit to dew-point temperature}
 \usage{
 VPD2Td(VPD, Ta)
 }
@@ -15,7 +15,7 @@ VPD2Td(VPD, Ta)
 dew-point temperature [degC]
 }
 \description{
-Title Convert vapor pressure deficit to dew-point temperature
+Convert vapor pressure deficit to dew-point temperature
 }
 \examples{
 VPD2Td(0.5, 20)

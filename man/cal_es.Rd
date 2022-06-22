@@ -2,7 +2,7 @@
 % Please edit documentation in R/ET_params.R
 \name{cal_es}
 \alias{cal_es}
-\title{Title Calculate saturation vapor pressure}
+\title{Calculate saturation vapor pressure}
 \usage{
 cal_es(Ta)
 }
@@ -13,7 +13,7 @@ cal_es(Ta)
 saturation vapor pressure [kPa]
 }
 \description{
-Title Calculate saturation vapor pressure
+Calculate saturation vapor pressure
 }
 \examples{
 cal_es(20)

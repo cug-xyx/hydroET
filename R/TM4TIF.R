@@ -1,4 +1,4 @@
-#' Title
+#' Add time attribute to raster
 #'
 #' @param tif_path path of tif file
 #' @param csv_path path of csv file containing TM

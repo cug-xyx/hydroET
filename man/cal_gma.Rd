@@ -2,7 +2,7 @@
 % Please edit documentation in R/ET_params.R
 \name{cal_gma}
 \alias{cal_gma}
-\title{Title Calculate psychrometric constant}
+\title{Calculate psychrometric constant}
 \usage{
 cal_gma(Pa = 101.325, Ta = NULL)
 }
@@ -15,7 +15,7 @@ cal_gma(Pa = 101.325, Ta = NULL)
 psychrometric constant [kPa degC-1]
 }
 \description{
-Title Calculate psychrometric constant
+Calculate psychrometric constant
 }
 \examples{
 cal_gma(Pa = 100, Ta = 20)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/ET_params.R
 \name{cal_delta}
 \alias{cal_delta}
-\title{Title Calculate the slope of the saturation vapor pressure curve at certain air}
+\title{Calculate the slope of the saturation vapor pressure curve at certain air}
 \usage{
 cal_delta(Ta)
 }
@@ -13,7 +13,7 @@ cal_delta(Ta)
 slope (delta) [kPa degC-1]
 }
 \description{
-Title Calculate the slope of the saturation vapor pressure curve at certain air
+Calculate the slope of the saturation vapor pressure curve at certain air
 }
 \examples{
 cal_delta(20)

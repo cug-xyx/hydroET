@@ -1,4 +1,4 @@
-#' Title Calculate potential evapotranspiration by Penman 1948 model
+#' Calculate potential evapotranspiration by Penman 1948 model
 #'
 #' @param Ta air temperature [degC]
 #' @param Rn surface net radiation [W m-2]
@@ -33,7 +33,7 @@ ET_Penman1948 <- function(Ta, Rn, U2, VPD,
 
 
 
-#' Title Calculate maximum value of potential evapotranspiration in dry environment
+#' Calculate maximum value of potential evapotranspiration in dry environment
 #'
 #' @param Tdry dry environment temperature [degC]
 #' @param Rn surface net radiation [W m-2]

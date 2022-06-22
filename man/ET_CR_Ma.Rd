@@ -2,7 +2,7 @@
 % Please edit documentation in R/ET_CR_Ma.R
 \name{ET_CR_Ma}
 \alias{ET_CR_Ma}
-\title{Title Calculate evapotranspiration by calibration-free complementary relationship model}
+\title{Calculate evapotranspiration by calibration-free complementary relationship model}
 \usage{
 ET_CR_Ma(Ta, Rn, U2, VPD, Pa = 101.325, G = NULL)
 }
@@ -23,7 +23,7 @@ ET_CR_Ma(Ta, Rn, U2, VPD, Pa = 101.325, G = NULL)
 evapotranspiration calculated by calibration-free CR model [mm d-1]
 }
 \description{
-Title Calculate evapotranspiration by calibration-free complementary relationship model
+Calculate evapotranspiration by calibration-free complementary relationship model
 }
 \examples{
 ET_CR_Ma(20, 50, 2, 0.5)

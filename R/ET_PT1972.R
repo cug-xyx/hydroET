@@ -1,4 +1,4 @@
-#' Title Calculate evapotranspiration by Priestley-Taylor (PT) model
+#' Calculate evapotranspiration by Priestley-Taylor (PT) model
 #'
 #' @param Tw wet environment temperature [degC]
 #' @param Rn surface net radiation [W m-2]

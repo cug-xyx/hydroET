@@ -2,7 +2,7 @@
 % Please edit documentation in R/ET_PT1972.R
 \name{ET_PT1972}
 \alias{ET_PT1972}
-\title{Title Calculate evapotranspiration by Priestley-Taylor (PT) model}
+\title{Calculate evapotranspiration by Priestley-Taylor (PT) model}
 \usage{
 ET_PT1972(Tw, Rn, Pa = 101.325, alpha = 1.26, Ta = NULL, G = NULL)
 }
@@ -23,7 +23,7 @@ ET_PT1972(Tw, Rn, Pa = 101.325, alpha = 1.26, Ta = NULL, G = NULL)
 evapotranspiration calculated by Priestley-Taylor model [mm d-1]
 }
 \description{
-Title Calculate evapotranspiration by Priestley-Taylor (PT) model
+Calculate evapotranspiration by Priestley-Taylor (PT) model
 }
 \examples{
 ET_PT1972(10, 50)

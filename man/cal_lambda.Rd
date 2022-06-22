@@ -2,7 +2,7 @@
 % Please edit documentation in R/ET_params.R
 \name{cal_lambda}
 \alias{cal_lambda}
-\title{Title Calculate lantent heat of vaporization}
+\title{Calculate lantent heat of vaporization}
 \usage{
 cal_lambda(Ta = NULL)
 }
@@ -13,7 +13,7 @@ cal_lambda(Ta = NULL)
 lambda, latent heat of vaporization, about [2.45 MJ kg-1]
 }
 \description{
-Title Calculate lantent heat of vaporization
+Calculate lantent heat of vaporization
 }
 \examples{
 cal_lambda(20)

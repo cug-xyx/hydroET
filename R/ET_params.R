@@ -1,4 +1,4 @@
-#' Title Calculate lantent heat of vaporization
+#' Calculate lantent heat of vaporization
 #'
 #' @param Ta air temperature [degC]
 #'
@@ -17,7 +17,7 @@ cal_lambda <- function(Ta = NULL) {
 }
 
 
-#' Title Calculate psychrometric constant
+#' Calculate psychrometric constant
 #'
 #' @param Pa air pressure [kPa]
 #' @param Ta lantent heat of vaporization [MJ kg-1]
@@ -39,7 +39,7 @@ cal_gma <- function(Pa = 101.325,   # atmospheric pressure [kPa]
 }
 
 
-#' Title Calculate the slope of the saturation vapor pressure curve at certain air
+#' Calculate the slope of the saturation vapor pressure curve at certain air
 #'
 #' @param Ta air temperature [degC]
 #'
@@ -54,7 +54,7 @@ cal_delta <- function(Ta) {
 }
 
 
-#' Title Calculate saturation vapor pressure
+#' Calculate saturation vapor pressure
 #'
 #' @param Ta air temperature [degC]
 #'
@@ -70,7 +70,7 @@ cal_es <- function(Ta) {
 }
 
 
-#' Title Convert vapor pressure deficit to dew-point temperature
+#' Convert vapor pressure deficit to dew-point temperature
 #'
 #' @param VPD vapor pressure deficit [kPa]
 #' @param Ta air temperature [degC]
@@ -93,7 +93,7 @@ VPD2Td <- function(VPD, Ta) {
 }
 
 
-#' Title Calculate wet-bulb temperature
+#' Calculate wet-bulb temperature
 #'
 #' @param VPD vapor pressure deficit [kPa]
 #' @param Ta air temperature [degC]
@@ -127,7 +127,7 @@ cal_Twb <- function(VPD, Ta,
 }
 
 
-#' Title Calculate dry environment temperature
+#' Calculate dry environment temperature
 #'
 #' @param Twb wet-bulb temperature [degC]
 #' @param Pa air pressure [kPa]
@@ -148,7 +148,7 @@ cal_Tdry <- function(Twb,
 }
 
 
-#' Title Converted zm wind speed to 2m wind speed
+#' Converted zm wind speed to 2m wind speed
 #'
 #' @param Uz z meters wind speed [m s-1]
 #' @param z.wind measurement altitude of wind speed [m]
@@ -166,7 +166,7 @@ cal_U2 <- function(Uz, z.wind = 10) {
 }
 
 
-#' Title Calculate wet surface temperature
+#' Calculate wet surface temperature
 #'
 #' @param Ta air temperature [degC]
 #' @param Rn surface net radiation [W m-2]

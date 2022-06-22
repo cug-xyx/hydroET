@@ -2,7 +2,7 @@
 % Please edit documentation in R/ET_Penman.R
 \name{ET_Penman1948}
 \alias{ET_Penman1948}
-\title{Title Calculate potential evapotranspiration by Penman 1948 model}
+\title{Calculate potential evapotranspiration by Penman 1948 model}
 \usage{
 ET_Penman1948(Ta, Rn, U2, VPD, Pa = 101.325, G = NULL)
 }
@@ -23,7 +23,7 @@ ET_Penman1948(Ta, Rn, U2, VPD, Pa = 101.325, G = NULL)
 potential evapotranspiration calculated by Penman 1948 model [mm d-1]
 }
 \description{
-Title Calculate potential evapotranspiration by Penman 1948 model
+Calculate potential evapotranspiration by Penman 1948 model
 }
 \examples{
 ET_Penman1948(20, 50, 2, 0.5)

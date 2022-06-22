@@ -2,7 +2,7 @@
 % Please edit documentation in R/ET_params.R
 \name{cal_Tdry}
 \alias{cal_Tdry}
-\title{Title Calculate dry environment temperature}
+\title{Calculate dry environment temperature}
 \usage{
 cal_Tdry(Twb, Pa = 101.325, Ta = NULL)
 }
@@ -17,7 +17,7 @@ cal_Tdry(Twb, Pa = 101.325, Ta = NULL)
 dry environment temperature [degC]
 }
 \description{
-Title Calculate dry environment temperature
+Calculate dry environment temperature
 }
 \examples{
 cal_Tdry(5)

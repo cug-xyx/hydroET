@@ -1,4 +1,4 @@
-#' Title Drawing rainfall runoff map based on ggplot2
+#' Drawing rainfall runoff map based on ggplot2
 #'
 #' @param d input data [data.frame]
 #' @param date Column name of date [character]

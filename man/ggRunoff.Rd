@@ -2,7 +2,7 @@
 % Please edit documentation in R/ggRunoff.R
 \name{ggRunoff}
 \alias{ggRunoff}
-\title{Title Drawing rainfall runoff map based on ggplot2}
+\title{Drawing rainfall runoff map based on ggplot2}
 \usage{
 ggRunoff(d, date, Q, prcp, ymax = NULL, prcp_color = NULL)
 }
@@ -23,7 +23,7 @@ ggRunoff(d, date, Q, prcp, ymax = NULL, prcp_color = NULL)
 rainfall runoff map based on ggplot2
 }
 \description{
-Title Drawing rainfall runoff map based on ggplot2
+Drawing rainfall runoff map based on ggplot2
 }
 \examples{
  d <- data.frame(date = seq(as.POSIXct('2022-05-02'),

@@ -1,4 +1,4 @@
-#' Title Calculate evapotranspiration by calibration-free complementary relationship model
+#' Calculate evapotranspiration by calibration-free complementary relationship model
 #'
 #' @param Ta air temperature [degC]
 #' @param Rn surface net radiation [W m-2]

@@ -2,7 +2,7 @@
 % Please edit documentation in R/ET_params.R
 \name{cal_Tws}
 \alias{cal_Tws}
-\title{Title Calculate wet surface temperature}
+\title{Calculate wet surface temperature}
 \usage{
 cal_Tws(Ta, Rn, U2, VPD, Pa = 101.325, G = NULL)
 }
@@ -23,7 +23,7 @@ cal_Tws(Ta, Rn, U2, VPD, Pa = 101.325, G = NULL)
 wet surface temperature [degC]
 }
 \description{
-Title Calculate wet surface temperature
+Calculate wet surface temperature
 }
 \examples{
 cal_Tws(20, 50, 3, 0.5)
