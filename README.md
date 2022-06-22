@@ -22,7 +22,7 @@ An R package related to evapotranspiration research
 ## TO DO
 
 - [x] Accuracy of inverse function to derive `Tws`and`Twb`
-- [ ] Calibration of  $\alpha$  (Appendix B in Ma and Szilagyi, 2019)
+- [ ] Calibration of `alpha` (Appendix B in Ma and Szilagyi, 2019)
 
 ## References
 
