@@ -1,7 +1,5 @@
 # hydroET
 
----
-
 An R package related to evapotranspiration research
 
 ## Installation
