@@ -10,9 +10,19 @@ An R package related to evapotranspiration research
 | `ET_Penman1948` | Penman 1948 model                                          | PET  |
 | `ET_PT1972`     | Priestley-Taylor model                                     | PET  |
 
+## Others functions
+
+| Function name | Description                                                  |
+| ------------- | ------------------------------------------------------------ |
+| `TM4TIF`      | Add **time** attribute to **raster** object (personal function) |
+| `ggRunoff`    | Drawing **rainfall runoff hydrograph** based on **ggplot2**  |
+
+
+
 ## TO DO
 
 - [x] Accuracy of inverse function to derive `Tws`and`Twb`
+- [ ] Calibration of $\alpha$ (Appendix B in Ma and Szilagyi, 2019)
 
 ## References
 
