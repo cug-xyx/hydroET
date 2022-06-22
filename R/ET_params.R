@@ -54,6 +54,40 @@ cal_delta <- function(Ta) {
 }
 
 
+#' Calculating vapor pressure deficit
+#'
+#' @param Ta air temperature [degC]
+#' @param Pa air pressure [kPa]
+#' @param ea actual vapour pressure [kPa]
+#' @param Td dew-point temperature [degC]
+#' @param q specific humidity [g g-1]
+#'
+#' @return vapor pressure deficit [kPa]
+#' @export
+#'
+#' @examples cal_VPD(Ta = 20, ea = 1)
+cal_VPD <- function(Ta,
+                    Pa = 101.325,
+                    ea = NULL,
+                    Td = NULL,
+                    q = NULL) {
+  es = cal_es(Ta = Ta)
+
+  # error should be handled first
+  if (!is.null(ea)) {
+    return(es - ea)
+  } else if (!is.null(Td)) {
+    ea = cal_es(Td)
+    return(es - ea)
+  } else if (!is.null(q)) {
+    ea = q * Pa / 0.622
+    return(es - ea)
+  } else {
+    stop('Missing key parameters for calculating ea')
+  }
+}
+
+
 #' Calculate saturation vapor pressure
 #'
 #' @param Ta air temperature [degC]

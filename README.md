@@ -1,6 +1,16 @@
 # hydroET
 
+---
+
 An R package related to evapotranspiration research
+
+## Installation
+
+You can install the hydroET from github:
+
+```R
+remotes::install_github('cug-xyx/hydroET')
+```
 
 ## (Potential) evapotranspiration model
 
