@@ -121,7 +121,7 @@ VPD2Td <- function(VPD, Ta) {
   # solve using the inverse function
   func <- function(Td, ea=ea) 0.6108 * exp((17.27 * Td) / (Td + 237.3)) - ea
   Td = sapply(ea, FUN = function(ea) {
-    uniroot(func, c(-200, 250), extendInt = 'yes', ea = ea)$root})
+    uniroot(func, c(-200, 250), extendInt = 'yes', tol = 1e-7, ea = ea)$root})
 
   return(Td)
 }
@@ -154,7 +154,7 @@ cal_Twb <- function(VPD, Ta,
 
   input_data = data.frame(const = const, gma = gma)
   Twb = sapply(1:nrow(input_data),FUN = function(num) {
-    uniroot(func, c(-200, 250), extendInt = 'yes',
+    uniroot(func, c(-273.15, 180), extendInt = 'yes', tol = 1e-7,
             const=input_data[num, ]$const, gma=input_data[num, ]$gma)$root})
 
   return(Twb)
@@ -245,7 +245,7 @@ cal_Tws <- function(Ta, Rn, U2, VPD,
 
   input_data = data.frame(const = const, gma = gma, beta_p = beta_p)
   Tws = sapply(1:nrow(input_data),FUN = function(num) {
-    uniroot(func, c(-250, 180), extendInt = 'yes',
+    uniroot(func, c(-273.15, 180), extendInt = 'yes', tol = 1e-7,
             const  = input_data[num, ]$const,
             gma    = input_data[num, ]$gma,
             beta_p = input_data[num, ]$beta_p)$root})

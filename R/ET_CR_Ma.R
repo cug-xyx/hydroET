@@ -28,7 +28,7 @@ ET_CR_Ma <- function(Ta, Rn, U2, VPD,
 
   X = (Epmax - Ep) / (Epmax - Ew) * Ew / Ep
 
-  ET = (2 - X) * X ^ 2 * Ep
+  ET = (2 - X) * (X ^ 2) * Ep
 
   return(ET)
 }
