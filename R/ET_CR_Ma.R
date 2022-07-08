@@ -12,8 +12,8 @@
 #' @return evapotranspiration calculated by calibration-free CR model [mm d-1]
 #' @export
 #'
-#' @examples ET_CR_Ma(20, 50, 2, 0.5)
-ET_CR_Ma <- function(Ta, Rn, U2, VPD,
+#' @examples ET_CR_Ma_ref(20, 50, 2, 0.5)
+ET_CR_Ma_ref <- function(Ta, Rn, U2, VPD,
                      Pa = 101.325,
                      G = NULL) {
   Twb  = cal_Twb(VPD = VPD, Ta = Ta, Pa = Pa)
@@ -68,7 +68,7 @@ ET_CR_Ma <- function(Ta, Rn, U2, VPD,
 #' @export
 #'
 #' @examples ET_CR_Ma(20, 50, 2, 0.5)
-ET_CR_Ma_old <- function(Ta, Rn, U2, VPD,
+ET_CR_Ma <- function(Ta, Rn, U2, VPD,
                      Pa = 101.325,
                      G = NULL) {
   Twb  = cal_Twb(VPD = VPD, Ta = Ta, Pa = Pa)
