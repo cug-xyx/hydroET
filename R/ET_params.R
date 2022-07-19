@@ -121,7 +121,8 @@ VPD2Td <- function(VPD, Ta) {
   # solve using the inverse function
   func <- function(Td, ea=ea) 0.6108 * exp((17.27 * Td) / (Td + 237.3)) - ea
   Td = sapply(ea, FUN = function(ea) {
-    uniroot(func, c(-100, 250), extendInt = 'yes', tol = 1e-7, ea = ea)$root})
+    uniroot(func, c(-100, 250), extendInt = 'yes',
+            maxiter = 100000, tol = 1e-7, ea = ea)$root})
 
   return(Td)
 }

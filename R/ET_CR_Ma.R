@@ -87,5 +87,9 @@ ET_CR_Ma <- function(Ta, Rn, U2, VPD,
   X = (Epmax - Ep) / (Epmax - Ew) * Ew / Ep
   ET = (2 - X) * (X ^ 2) * Ep
 
+  ET = dplyr::tibble(Rn, ET) %>%
+    mutate(ET = ifelse(Rn < 0 | ET < 0, 0, ET)) %>%
+    dplyr::pull(ET)
+
   return(ET)
 }
