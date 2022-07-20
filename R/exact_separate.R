@@ -46,7 +46,7 @@ exact_separate <- function(d, .col_name, .col_value,
             convert = .convert, extra = .extra, fill = .fill, ...) %>%
             select(-raw_colNm)
       }) %>% purrr::map_dfr(~.x) %>% arrange(ID) %>% select(-ID)
-    ) %>% select(-!!.col_value, -!!.col_name)
+    ) %>% select(-!!.col_value, -!!.col_name, -ID)
 
   bind_cols(d, goal_d)
 }
@@ -56,4 +56,4 @@ exact_separate <- function(d, .col_name, .col_value,
 #        tes = 1) %>%
 #   exact_separate(.col_name = FORMAT, .col_value = value, .convert = T)
 # tibble(FORMAT = rep('A:B', 10000), value = rep('2:3', 10000)) %>%
-#   exact_separate(.col_name = FORMAT, .col_value = value)
+  # exact_separate(.col_name = FORMAT, .col_value = value)
