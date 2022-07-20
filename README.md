@@ -21,11 +21,12 @@ remotes::install_github('cug-xyx/hydroET')
 
 ## Others functions
 
-| Function name    | Description                                                  |
-| ---------------- | ------------------------------------------------------------ |
-| `TM4TIF`         | Add **time** attribute to **raster** object (personal function) |
-| `ggRunoff`       | Drawing **rainfall runoff hydrograph** based on **ggplot2**  |
-| `exact_separate` | Enhanced `tidyr::separate` function                          |
+| Function name      | Description                                                  |
+| ------------------ | ------------------------------------------------------------ |
+| `TM4TIF`           | Add **time** attribute to **raster** object (personal function) |
+| `ggRunoff`         | Drawing **rainfall runoff hydrograph** based on **ggplot2**  |
+| `exact_separate`   | Enhanced `tidyr::separate` function                          |
+| `bind_array_layer` | Merge layers of the same shape **array**                     |
 
 ## TO DO
 
