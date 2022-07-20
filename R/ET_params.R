@@ -255,6 +255,27 @@ cal_Tws <- function(Ta, Rn, U2, VPD,
 }
 
 
+#' Calibrating PT-alpha coefficients for widely wet surfaces
+#'
+#' @param Ta air temperature [degC]
+#' @param Tws wet surface temperature [degC]
+#' @param VPD vapor pressure deficit [kPa]
+#' @param Pa air pressure [kPa]
+#'
+#' @return PT-alpha coefficients
+#' @export
+#'
+#' @examples calib_alpha(20, 10, 0.5)
+calib_alpha <- function(Ta, Tws, VPD,
+                        Pa = 101.325) {
+  gma = cal_gma(Pa = Pa, Ta = Ta)
+  ea = cal_es(Ta) - VPD
+  es_Tws = cal_es(Tws)
+  dlt_Ta = cal_delta(Ta)
+
+  alpha = (dlt_Ta + gma) * (es_Tws - ea) / dlt_Ta * ((es_Tws - ea) + gma * (Tws - Ta))
+  return(alpha)
+}
 
 
 
