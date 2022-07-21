@@ -17,5 +17,4 @@ Imports:
     purrr,
     stats,
     stringr,
-    terra,
     tidyr
