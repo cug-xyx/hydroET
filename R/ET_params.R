@@ -117,6 +117,7 @@ cal_es <- function(Ta) {
 #' @examples VPD2Td(0.5, 20)
 VPD2Td <- function(VPD, Ta) {
   ea = cal_es(Ta) - VPD
+  if (ea < 0 ) ea = 0
 
   # solve using the inverse function
   func <- function(Td, ea=ea) 0.6108 * exp((17.27 * Td) / (Td + 237.3)) - ea
