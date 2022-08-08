@@ -6,6 +6,13 @@
 #' @param prcp column name of precipitation [character]
 #' @param ymax Y-axis maximum, also second abscissa axis position
 #' @param prcp_color fill color for rainfall
+#' @param times magnification precipitation
+#' @param facet if TRUE, facet_wrap is used
+#' @param col_q Column name of `color type` [character]
+#' @param axis1_lim limitations of axis1
+#' @param Axis1 label of axis1
+#' @param Axis2 label of axis2
+#' @param line_size size of geom_line (runoff)
 #'
 #' @importFrom  magrittr `%>%` `%<>%`
 #' @import dplyr ggplot2
@@ -13,12 +20,6 @@
 #' @return rainfall runoff map based on ggplot2
 #' @export
 #'
-#' @examples
-#'  d <- data.frame(date = seq(as.POSIXct('2022-05-02'),
-#'                         as.POSIXct('2022-05-05'), by = 'day'),
-#'                  Q    = seq(10, 40, 10),
-#'                  P    = c(1, 2, 0, 2))
-#'  ggRunoff(d, date = 'date', Q = 'Q', prcp = 'P')
 ggRunoff <- function(d, date, Q, prcp, times=1,
                      facet = F,
                      col_q = NULL,
@@ -29,7 +30,8 @@ ggRunoff <- function(d, date, Q, prcp, times=1,
                      line_size = 1) {
 
   if(is.null(col_q)) {
-    mutate(d, col_q='default_Q')
+    d %<>% mutate(col_q='default_Q')
+    col_q = 'col_q'
   }
 
   d %<>%

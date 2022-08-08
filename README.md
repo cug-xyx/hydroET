@@ -21,18 +21,20 @@ remotes::install_github('cug-xyx/hydroET')
 
 ## Others functions
 
-| Function name      | Description                                                  |
-| ------------------ | ------------------------------------------------------------ |
-| `TM4TIF`           | Add **time** attribute to **raster** object (personal function) |
-| `ggRunoff`         | Drawing **rainfall runoff hydrograph** based on **ggplot2**  |
-| `exact_separate`   | Enhanced `tidyr::separate` function                          |
-| `bind_array_layer` | Merge layers of the same shape **array**                     |
+| Function name           | Description                                                  |
+| ----------------------- | ------------------------------------------------------------ |
+| `TM4TIF`                | Add **time** attribute to **raster** object (personal function) |
+| `ggRunoff`              | Drawing **rainfall runoff hydrograph** based on **ggplot2**  |
+| `exact_separate`        | Enhanced `tidyr::separate` function                          |
+| `bind_array_layer`      | Merge layers of the same shape **array**                     |
+| `previous_value_interp` | Interpolate with the **previous value**                      |
 
 ## TO DO
 
 - [x] Accuracy of inverse function to derive `Tws`and`Twb`
-- [ ] Calibration of `alpha` (Appendix B in Ma and Szilagyi, 2019)
+- [x] Calibration of `alpha` (Appendix B in Ma and Szilagyi, 2019)
 - [ ] Maximum Evaporation Theory (Yang)
+- [ ] `facet_wrap`+`geom_son_bar`
 
 ## References
 

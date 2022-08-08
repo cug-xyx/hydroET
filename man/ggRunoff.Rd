@@ -4,7 +4,21 @@
 \alias{ggRunoff}
 \title{Drawing rainfall runoff map based on ggplot2}
 \usage{
-ggRunoff(d, date, Q, prcp, ymax = NULL, prcp_color = NULL)
+ggRunoff(
+  d,
+  date,
+  Q,
+  prcp,
+  times = 1,
+  facet = F,
+  col_q = NULL,
+  ymax = NULL,
+  prcp_color = NULL,
+  axis1_lim = NULL,
+  Axis1 = "Axis1",
+  Axis2 = "Axis2",
+  line_size = 1
+)
 }
 \arguments{
 \item{d}{input data [data.frame]}
@@ -15,20 +29,27 @@ ggRunoff(d, date, Q, prcp, ymax = NULL, prcp_color = NULL)
 
 \item{prcp}{column name of precipitation [character]}
 
+\item{times}{magnification precipitation}
+
+\item{facet}{if TRUE, facet_wrap is used}
+
+\item{col_q}{Column name of `color type` [character]}
+
 \item{ymax}{Y-axis maximum, also second abscissa axis position}
 
 \item{prcp_color}{fill color for rainfall}
+
+\item{axis1_lim}{limitations of axis1}
+
+\item{Axis1}{label of axis1}
+
+\item{Axis2}{label of axis2}
+
+\item{line_size}{size of geom_line (runoff)}
 }
 \value{
 rainfall runoff map based on ggplot2
 }
 \description{
 Drawing rainfall runoff map based on ggplot2
-}
-\examples{
- d <- data.frame(date = seq(as.POSIXct('2022-05-02'),
-                        as.POSIXct('2022-05-05'), by = 'day'),
-                 Q    = seq(10, 40, 10),
-                 P    = c(1, 2, 0, 2))
- ggRunoff(d, date = 'date', Q = 'Q', prcp = 'P')
 }
