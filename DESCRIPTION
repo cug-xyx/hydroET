@@ -1,7 +1,7 @@
 Package: hydroET
 Type: Package
 Title: Functions for calculating evapotranspiration by calibration-free complementary relationship model
-Version: 0.2.0
+Version: 0.3.0
 Author: Yuxuan Xie
 Maintainer: Yuxuan Xie <xieyx@cug.edu.cn>
 Description: An R package for calculating evapotranspiration and other interesting functions.
