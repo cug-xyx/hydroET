@@ -28,6 +28,7 @@ remotes::install_github('cug-xyx/hydroET')
 | `exact_separate`        | Enhanced `tidyr::separate` function                          |
 | `bind_array_layer`      | Merge layers of the same shape **array**                     |
 | `previous_value_interp` | Interpolate with the **previous value**                      |
+| `separate2`             | Enhanced `tidyr::separate` function by `data.table`          |
 
 ## TO DO
 
