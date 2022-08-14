@@ -34,6 +34,7 @@ remotes::install_github('cug-xyx/hydroET')
 
 - [x] Accuracy of inverse function to derive `Tws`and`Twb`
 - [x] Calibration of `alpha` (Appendix B in Ma and Szilagyi, 2019)
+- [ ] Link to Rstudio server
 - [ ] Maximum Evaporation Theory (Yang)
 - [ ] `facet_wrap`+`geom_son_bar`
 
