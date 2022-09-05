@@ -13,6 +13,7 @@ Imports:
     data.table,
     dplyr,
     ggplot2,
+    httr,
     magrittr,
     purrr,
     stats,
