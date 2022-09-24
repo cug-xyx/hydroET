@@ -30,6 +30,7 @@ remotes::install_github('cug-xyx/hydroET')
 | `previous_value_interp` | Interpolate with the **previous value**                      |
 | `separate2`             | Enhanced `tidyr::separate` function by `data.table`          |
 | `GETZQData`             | get **hydrological data** (water level and runoff) from Hubei by station code |
+| `get_NCBI_info`         | get **NCBI** sample information                              |
 
 ## TO DO
 
