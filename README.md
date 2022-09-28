@@ -29,8 +29,14 @@ remotes::install_github('cug-xyx/hydroET')
 | `bind_array_layer`      | Merge layers of the same shape **array**                     |
 | `previous_value_interp` | Interpolate with the **previous value**                      |
 | `separate2`             | Enhanced `tidyr::separate` function by `data.table`          |
-| `GETZQData`             | get **hydrological data** (water level and runoff) from Hubei by station code |
-| `get_NCBI_info`         | get **NCBI** sample information                              |
+
+## crawlerTools
+
+| Function name          | Description                                                  | Url                                 |
+| ---------------------- | ------------------------------------------------------------ | ----------------------------------- |
+| `GETZQData`            | get **hydrological data** (water level and runoff) from Hubei by station code | http://113.57.190.228:8001/         |
+| `get_NCBI_info`        | get **NCBI** sample information                              | https://www.ncbi.nlm.nih.gov/       |
+| `get_protein_homologs` | get protein homologs from **JGI Phytozome**                  | https://phytozome-next.jgi.doe.gov/ |
 
 ## TO DO
 
