@@ -52,3 +52,8 @@ test('PRJDB4749', tidy = F)$facet_counts$facet_fields$fieldvals %>%
   lapply(get_NCBI_info) %>%
   rbindlist(fill = T)
 
+get_NCBI_info('PRJNA192876', project = T)
+
+
+
+

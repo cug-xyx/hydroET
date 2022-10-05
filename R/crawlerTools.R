@@ -79,7 +79,6 @@ get_NCBI_info <- function(sample_ID, tidy = T, project = F) {
       url = URL, body = PAYLOAD) |>
     httr::content(encoding = 'utf-8') |>
     jsonlite::fromJSON()
-  NCBI_info$sample_ID = sample_ID
 
   if (project) {
     NCBI_info = NCBI_info$facet_counts$facet_fields$fieldvals %>%
@@ -89,7 +88,11 @@ get_NCBI_info <- function(sample_ID, tidy = T, project = F) {
       ) %>% .[which(!is.na(.))] %>% gsub(' ', '', .) %>%
       lapply(get_NCBI_info) %>%
       rbindlist(fill = T)
+
+    NCBI_info$project_ID = sample_ID
   } else{
+    NCBI_info$sample_ID = sample_ID
+
     if (tidy) {
       NCBI_info = NCBI_info |> tidy_NCBI_info(sample_ID = sample_ID)
     }
