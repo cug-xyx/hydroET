@@ -52,15 +52,17 @@ GetZQData <- function(stcd, sdate, edate=NULL) {
 #'
 #' @param sample_ID sample ID
 #' @param tidy whether tidy the fieldvals table
+#' @param project whether sample_ID is project_ID, `tidy` default to TRUE
 #'
 #' @return NCBI_info (list or data.frame)
 #' @export
 #'
 #' @importFrom httr POST content
 #' @importFrom jsonlite fromJSON
+#' @importFrom magrittr `%>%`
 #'
 #' @examples get_NCBI_info(sample_ID = 'ERX2746395')
-get_NCBI_info <- function(sample_ID, tidy = T) {
+get_NCBI_info <- function(sample_ID, tidy = T, project = F) {
   URL = 'https://www.ncbi.nlm.nih.gov/Traces/solr-proxy-be/solr-proxy-be.cgi?core=run_sel_index'
   PAYLOAD = list(
     'core' = 'run_sel_index',
@@ -79,8 +81,18 @@ get_NCBI_info <- function(sample_ID, tidy = T) {
     jsonlite::fromJSON()
   NCBI_info$sample_ID = sample_ID
 
-  if (tidy) {
-    NCBI_info = NCBI_info |> tidy_NCBI_info(sample_ID = sample_ID)
+  if (project) {
+    NCBI_info = NCBI_info$facet_counts$facet_fields$fieldvals %>%
+      `[`(seq(1, length(.)-1, by = 2)) %>% strsplit(':') %>%
+      sapply(
+        FUN = function(info) ifelse(info[1] == 'acc_s', info[2], NA)
+      ) %>% .[which(!is.na(.))] %>% gsub(' ', '', .) %>%
+      lapply(get_NCBI_info) %>%
+      rbindlist(fill = T)
+  } else{
+    if (tidy) {
+      NCBI_info = NCBI_info |> tidy_NCBI_info(sample_ID = sample_ID)
+    }
   }
 
   NCBI_info

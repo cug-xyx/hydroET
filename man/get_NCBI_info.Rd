@@ -4,12 +4,14 @@
 \alias{get_NCBI_info}
 \title{get NCBI sample information table}
 \usage{
-get_NCBI_info(sample_ID, tidy = T)
+get_NCBI_info(sample_ID, tidy = T, project = F)
 }
 \arguments{
 \item{sample_ID}{sample ID}
 
 \item{tidy}{whether tidy the fieldvals table}
+
+\item{project}{whether sample_ID is project_ID, `tidy` default to TRUE}
 }
 \value{
 NCBI_info (list or data.frame)
