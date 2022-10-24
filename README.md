@@ -37,6 +37,7 @@ remotes::install_github('cug-xyx/hydroET')
 | `GETZQData`            | get **hydrological data** (water level and runoff) from Hubei by station code | http://113.57.190.228:8001/         |
 | `get_NCBI_info`        | get **NCBI** sample information                              | https://www.ncbi.nlm.nih.gov/       |
 | `get_protein_homologs` | get protein homologs from **JGI Phytozome**                  | https://phytozome-next.jgi.doe.gov/ |
+| `get_plantintron_data` | get data from **Plant Intron Splicing Efficiency Database**  | https://plantintron.cn/arabidopsis/ |
 
 ## TO DO
 

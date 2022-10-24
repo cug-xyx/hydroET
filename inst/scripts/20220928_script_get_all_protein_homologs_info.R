@@ -12,3 +12,6 @@ res_data <-
   )
 
 save(res_data, file = 'inst/extdata/processed/dt_protein_homologs.rda')
+
+
+get_protein_homologs('Cre01.g005534.t1.2')

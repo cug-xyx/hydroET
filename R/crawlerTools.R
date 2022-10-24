@@ -149,3 +149,47 @@ get_protein_homologs <- function(transcript) {
 
   homologs
 }
+
+
+#' Crawling Plant Intron Splicing Efficiency Database
+#'
+#' @param ath Gene
+#'
+#' @return data.table
+#' @export
+#'
+#' @import data.table
+#' @importFrom stringr str_extract str_split
+#' @importFrom magrittr `%>%` set_names
+#'
+#' @examples get_plantintron_data()
+get_plantintron_data <- function(ath = 'AT1G01830') {
+  path_info = paste0('https://plantintron.cn/arabidopsis/user/',ath,'.trans.info')
+
+  table_tags =
+    data.table::fread(path_info, header = F, sep = '/'
+    )[, lapply(.SD, function(x) {stringr::str_extract(x, '.*?(?=_chr)')})
+    ] |> as.character()
+
+  data.table::rbindlist(
+    lapply(
+      table_tags %>% set_names(., .),
+      function(table_tag) {
+        data.table::fread(
+          paste0('https://plantintron.cn/arabidopsis/user/', table_tag, '.trans.ir.csv')
+        )[, `:=`(
+          intronir = stringr::str_split(intronir, ';'),
+          libinfo = stringr::str_split(libinfo, ';')
+        )] %>% tidyr::unnest(c(intronir, libinfo))
+      }
+    ), idcol = 'table_tag'
+  )[, `:=`(
+    ath = ath,
+    local_start = stringr::str_extract('chr1:300516-300602', '(?<=:).*(?=-)') |> as.numeric(),
+    local_end = stringr::str_extract('chr1:300516-300602', '(?<=-).*') |> as.numeric()
+  )][]
+}
+
+
+
+
