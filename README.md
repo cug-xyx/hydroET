@@ -29,6 +29,7 @@ remotes::install_github('cug-xyx/hydroET')
 | `bind_array_layer`      | Merge layers of the same shape **array**                     |
 | `previous_value_interp` | Interpolate with the **previous value**                      |
 | `separate2`             | Enhanced `tidyr::separate` function by `data.table`          |
+| `facet_subgraphs`       | add subgraphs to `ggplot2` **facet object**                  |
 
 ## crawlerTools
 
@@ -45,7 +46,7 @@ remotes::install_github('cug-xyx/hydroET')
 - [x] Calibration of `alpha` (Appendix B in Ma and Szilagyi, 2019)
 - [x] Link to Rstudio server
 - [ ] Maximum Evaporation Theory (Yang)
-- [ ] `facet_wrap`+`geom_son_bar`
+- [x] `facet_wrap`+`geom_son_bar`
 
 ## References
 
