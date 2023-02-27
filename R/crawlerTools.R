@@ -191,5 +191,62 @@ get_plantintron_data <- function(ath = 'AT1G01830') {
 }
 
 
+#' ngdc crawler tools
+#'
+#' @param value ?.xlsx
+#' @param download_path save path
+#'
+#' @export
+downGsaExcel <- function(
+  value = 'CRA004082',
+  download_path = NULL
+) {
+  URL = "https://ngdc.cncb.ac.cn/gsa/file/exportExcelFile"
 
+  if (is.null(download_path)) download_path = paste0(value, '.xlsx')
+
+  cookies = c(
+    `JSESSIONID` = "8B4114C496AF03275F54AF5281EAFC94",
+    `Hm_lvt_12ad5f4a705cdddcb576f8124dbbce0d` = "1677462198,1677466428,1677468560,1677476312",
+    `Hm_lpvt_12ad5f4a705cdddcb576f8124dbbce0d` = "1677476312",
+    `_pk_testcookie.8.9ecc` = "1",
+    `_pk_id.8.9ecc` = "739e0efefe96d6fe.1677462198.4.1677476313.1677476312.",
+    `_pk_ses.8.9ecc` = "1"
+  )
+
+  headers = c(
+    `Accept` = "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+    `Accept-Language` = "zh-CN,zh;q=0.9",
+    `Cache-Control` = "no-cache",
+    `Connection` = "keep-alive",
+    `Content-Type` = "application/x-www-form-urlencoded",
+    `Origin` = "https://ngdc.cncb.ac.cn",
+    `Pragma` = "no-cache",
+    `Referer` = paste0("https://ngdc.cncb.ac.cn/gsa/browse/", value),
+    `Sec-Fetch-Dest` = "document",
+    `Sec-Fetch-Mode` = "navigate",
+    `Sec-Fetch-Site` = "same-origin",
+    `Sec-Fetch-User` = "?1",
+    `Upgrade-Insecure-Requests` = "1",
+    `User-Agent` = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
+    `sec-ch-ua` = '"Chromium";v="110", "Not A(Brand";v="24", "Google Chrome";v="110"',
+    `sec-ch-ua-mobile` = "?0",
+    `sec-ch-ua-platform` = '"Windows"'
+  )
+
+  data = list(
+    'type' = "3",
+    'dlAcession' = value
+  )
+
+  cont = httr::POST(
+    url = URL,
+    httr::add_headers(.headers=headers),
+    httr::set_cookies(.cookies = cookies),
+    body = data,
+    encode = "form"
+  ) |> httr::content()
+
+  writeBin(cont, download_path)
+}
 

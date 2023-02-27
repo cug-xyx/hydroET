@@ -39,6 +39,7 @@ remotes::install_github('cug-xyx/hydroET')
 | `get_NCBI_info`        | get **NCBI** sample information                              | https://www.ncbi.nlm.nih.gov/       |
 | `get_protein_homologs` | get protein homologs from **JGI Phytozome**                  | https://phytozome-next.jgi.doe.gov/ |
 | `get_plantintron_data` | get data from **Plant Intron Splicing Efficiency Database**  | https://plantintron.cn/arabidopsis/ |
+| `downGsaExcel`         | get **ngdc gsa** metadata information excel file             | https://ngdc.cncb.ac.cn/gsa/browse/ |
 
 ## TO DO
 
