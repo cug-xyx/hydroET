@@ -5,15 +5,9 @@
 #' @return lambda, latent heat of vaporization, about [2.45 MJ kg-1]
 #' @export
 #'
-#' @examples cal_lambda(20)
+#' @examples cal_lambda(Ta = 20)
 cal_lambda <- function(Ta = NULL) {
-  if (is.null(Ta)) {
-    lambda = 2.45
-  } else {
-    lambda = (2500 - Ta * 2.2) / 1000
-  }
-
-  return(lambda)
+  ifelse(is.null(Ta), 2.45, (2500 - Ta * 2.2) / 1000)
 }
 
 
@@ -26,14 +20,12 @@ cal_lambda <- function(Ta = NULL) {
 #' @export
 #'
 #' @examples cal_gma(Pa = 100, Ta = 20)
-cal_gma <- function(Pa = 101.325,   # atmospheric pressure [kPa]
-                    Ta = NULL
-                    ) {
-  cp      = 0.001013 # specific heat at constant pressure [MJ kg-1 degC-1]
-  epsilon = 0.622    # ratio molecular weight of water vapor/dry air
-  lambda  = cal_lambda(Ta = Ta)
+cal_gma <- function(Pa = 101.325, Ta = NULL) {
+  cp <- 0.001013 # specific heat at constant pressure [MJ kg-1 degC-1]
+  epsilon <- 0.622    # ratio molecular weight of water vapor/dry air
+  lambda  <- cal_lambda(Ta = Ta)
 
-  gma = (cp * Pa) / (epsilon * lambda) # psychrometric constant [kPa degC-1]
+  gma <- (cp * Pa) / (epsilon * lambda)
 
   return(gma)
 }
@@ -46,11 +38,9 @@ cal_gma <- function(Pa = 101.325,   # atmospheric pressure [kPa]
 #' @return slope (delta) [kPa degC-1]
 #' @export
 #'
-#' @examples cal_delta(20)
+#' @examples cal_delta(Ta = 20)
 cal_delta <- function(Ta) {
-  dlt = 4098 * (0.6108 * exp((17.27 * Ta)/(Ta + 237.3)))/(Ta + 237.3)^2
-
-  return(dlt)
+  4098 * (0.6108 * exp((17.27 * Ta) / (Ta + 237.3))) / (Ta + 237.3) ^ 2
 }
 
 
@@ -66,24 +56,26 @@ cal_delta <- function(Ta) {
 #' @export
 #'
 #' @examples cal_VPD(Ta = 20, ea = 1)
-cal_VPD <- function(Ta,
-                    Pa = 101.325,
-                    ea = NULL,
-                    Td = NULL,
-                    q = NULL) {
-  es = cal_es(Ta = Ta)
+cal_VPD <- function(
+  Ta,
+  Pa = 101.325,
+  ea = NULL,
+  Td = NULL,
+  q = NULL
+) {
+  es <- cal_es(Ta = Ta)
 
   # error should be handled first
   if (!is.null(ea)) {
     return(es - ea)
   } else if (!is.null(Td)) {
-    ea = cal_es(Td)
+    ea <- cal_es(Td)
     return(es - ea)
   } else if (!is.null(q)) {
-    ea = q * Pa / 0.622
+    ea <- q * Pa / 0.622
     return(es - ea)
   } else {
-    stop('Missing key parameters for calculating ea')
+    stop('Missing key parameters for calculating `ea`')
   }
 }
 
@@ -97,10 +89,7 @@ cal_VPD <- function(Ta,
 #'
 #' @examples cal_es(20)
 cal_es <- function(Ta) {
-  # saturation vapour pressure at the air temperature [kPa]
-  es = 0.6108 * exp((17.27 * Ta) / (Ta + 237.3))
-
-  return(es)
+  0.6108 * exp((17.27 * Ta) / (Ta + 237.3))
 }
 
 
@@ -116,12 +105,13 @@ cal_es <- function(Ta) {
 #'
 #' @examples VPD2Td(0.5, 20)
 VPD2Td <- function(VPD, Ta) {
-  ea = cal_es(Ta) - VPD
-  if (ea < 0 ) ea = 0
+  ea <- cal_es(Ta) - VPD
+  if (ea < 0) ea <- 0
 
   # solve using the inverse function
-  func <- function(Td, ea=ea) 0.6108 * exp((17.27 * Td) / (Td + 237.3)) - ea
-  Td = sapply(ea, FUN = function(ea) {
+  func <- function(Td, ea = ea) 0.6108 * exp((17.27 * Td) / (Td + 237.3)) - ea
+  # TODO
+  Td <- sapply(ea, FUN = function(ea) {
     if (is.na(ea)) return(NA)
     uniroot(func, c(-100, 80), extendInt = 'yes', tol = 1e-7, ea = ea)$root})
 
