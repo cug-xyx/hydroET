@@ -22,5 +22,5 @@ ET_summary <- function(Ta, Rn, U2, VPD = VPD,
   ET_Penman48 = ET_Penman1948(Ta = Ta, Rn = Rn, U2 = U2, VPD = VPD, Pa = Pa, G = G)
   ET_PT72 = ET_PT1972(Tw = Tw, Rn = Rn, Pa = Pa, alpha = alpha, Ta = Ta, G = G)
 
-  dplyr::tibble(ET_CR_Ma, ET_Penman48, ET_PT72)
+  data.frame(ET_CR_Ma, ET_Penman48, ET_PT72)
 }

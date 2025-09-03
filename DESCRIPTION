@@ -1,22 +1,15 @@
 Package: hydroET
 Type: Package
-Title: Functions for calculating evapotranspiration by calibration-free complementary relationship model
+Title: Functions for calculating hydrological component evapotranspiration (ET)
 Version: 0.3.0
 Author: Yuxuan Xie
-Maintainer: Yuxuan Xie <xieyx@cug.edu.cn>
-Description: An R package for calculating evapotranspiration and other interesting functions.
+Maintainer: Yuxuan Xie <xieyx0412@163.com>
+Description: An R package for calculating evapotranspiration.
 License: GPL (>= 3) + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.2
+RoxygenNote: 7.3.2
 Imports: 
-    data.table,
     dplyr,
-    ggplot2,
-    httr,
-    jsonlite,
     magrittr,
-    purrr,
-    stats,
-    stringr,
-    tidyr
+    stats

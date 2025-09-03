@@ -8,6 +8,7 @@
 #' @param G soil heat flux [W m-2]
 #'
 #' @importFrom magrittr `%>%` `%<>%`
+#' @importFrom dplyr mutate
 #'
 #' @return evapotranspiration calculated by calibration-free CR model [mm d-1]
 #' @export
@@ -31,7 +32,7 @@ ET_CR_Ma_ref <- function(Ta, Rn, U2, VPD,
   # 2022-07-02 refer to Ma's code
   ET_df = data.frame(Ew, Ep, Epmax)
   ET_df %<>%
-    mutate(Ew = min(Ew, Ep),
+    dplyr::mutate(Ew = min(Ew, Ep),
            x = ifelse(Ep > 0, Ew / Ep, 1),
            xmin = Ew / Epmax,
            x = ifelse(x < xmin, xmin, x),
@@ -63,6 +64,7 @@ ET_CR_Ma_ref <- function(Ta, Rn, U2, VPD,
 #' @param G soil heat flux [W m-2]
 #'
 #' @importFrom magrittr `%>%` `%<>%`
+#' @importFrom dplyr tibble pull
 #'
 #' @return evapotranspiration calculated by calibration-free CR model [mm d-1]
 #' @export
