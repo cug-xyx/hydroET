@@ -105,17 +105,15 @@ cal_es <- function(Ta) {
 #'
 #' @examples VPD2Td(0.5, 20)
 VPD2Td <- function(VPD, Ta) {
-  ea <- cal_es(Ta) - VPD
-  if (ea < 0) ea <- 0
+  ea <- pmax(cal_es(Ta) - VPD, 0)
 
   # solve using the inverse function
   func <- function(Td, ea = ea) 0.6108 * exp((17.27 * Td) / (Td + 237.3)) - ea
-  # TODO
-  Td <- sapply(ea, FUN = function(ea) {
-    if (is.na(ea)) return(NA)
-    uniroot(func, c(-100, 80), extendInt = 'yes', tol = 1e-7, ea = ea)$root})
 
-  return(Td)
+  sapply(ea, FUN = function(ea) {
+    if (is.na(ea)) return(NA)
+    uniroot(func, c(-100, 80), extendInt = 'yes', tol = 1e-7, ea = ea)$root
+  })
 }
 
 
@@ -131,26 +129,29 @@ VPD2Td <- function(VPD, Ta) {
 #' @export
 #'
 #' @examples cal_Twb(0.5, 20)
-cal_Twb <- function(VPD, Ta,
-                    Pa = 101.325) {
-  gma = cal_gma(Pa = Pa, Ta = Ta)
-  Td  = VPD2Td(VPD, Ta)
+cal_Twb <- function(
+  VPD, Ta,
+  Pa = 101.325
+) {
+  gma <- cal_gma(Pa = Pa, Ta = Ta)
+  Td <- VPD2Td(VPD, Ta)
 
   # solve using the inverse function
   # gma * Twb + cal_es(Twb) = cal_es(Td) + gma * Ta
-  const = cal_es(Td) + gma * Ta
+  const <- cal_es(Td) + gma * Ta
 
-  func <- function(Twb, const = const, gma=gma) {
+  func <- function(Twb, const = const, gma = gma) {
     gma * Twb + 0.6108 * exp((17.27 * Twb) / (Twb + 237.3)) - const
   }
 
-  input_data = data.frame(const = const, gma = gma)
-  Twb = sapply(1:nrow(input_data),FUN = function(num) {
-    if (NA %in% (input_data[num, ] %>% as.numeric())) return(NA)
-    uniroot(func, c(-100, 180), extendInt = 'yes', tol = 1e-7,
-            const=input_data[num, ]$const, gma=input_data[num, ]$gma)$root})
+  input_data <- data.frame(const = const, gma = gma)
+  sapply(seq_len(nrow(input_data)), FUN = function(num) {
+    if (NA %in% as.numeric(input_data[num, ])) return(NA)
 
-  return(Twb)
+    uniroot(
+      func, c(-100, 180), extendInt = 'yes', tol = 1e-7,
+      const = input_data[num, ]$const, gma = input_data[num, ]$gma)$root
+  })
 }
 
 
@@ -164,31 +165,31 @@ cal_Twb <- function(VPD, Ta,
 #' @export
 #'
 #' @examples cal_Tdry(5)
-cal_Tdry <- function(Twb,
-                     Pa = 101.325,
-                     Ta = NULL) {
-  gma = cal_gma(Pa = Pa, Ta = Ta)
+cal_Tdry <- function(
+  Twb,
+  Pa = 101.325,
+  Ta = NULL
+) {
+  gma <- cal_gma(Pa = Pa, Ta = Ta)
 
-  Tdry = Twb + cal_es(Twb) / gma
-
-  return(Tdry)
+  Twb + cal_es(Twb) / gma
 }
 
 
-#' Converted zm wind speed to 2m wind speed
+#' Converted h(m) wind speed to 2(m) wind speed
 #'
 #' @param Uz z meters wind speed [m s-1]
-#' @param z.wind measurement altitude of wind speed [m]
+#' @param z measurement altitude of wind speed [m]
 #'
 #' @return 2 meters wind speed [m s-1]
 #' @export
 #'
 #' @examples cal_U2(6)
-cal_U2 <- function(Uz, z.wind = 10) {
-  if (z.wind == 2) {
-    return(Uz)
+cal_U2 <- function(Uz, z = 10) {
+  if (z == 2) {
+    Uz
   } else {
-    return(U2 = Uz * 4.87 / log(67.8 * z.wind - 5.42))
+    Uz * 4.87 / log(67.8 * z - 5.42)
   }
 }
 
@@ -208,43 +209,49 @@ cal_U2 <- function(Uz, z.wind = 10) {
 #' @export
 #'
 #' @examples cal_Tws(20, 50, 3, 0.5)
-cal_Tws <- function(Ta, Rn, U2, VPD,
-                    Pa = 101.325,
-                    G  = NULL) {
-  lambda = cal_lambda(Ta = Ta)
-  gma    = cal_gma(Pa = Pa, Ta = Ta)
-  dlt    = cal_delta(Ta)
-  fu     = 2.6 * (1 + 0.54 * U2)     # wind function
+cal_Tws <- function(
+  Ta, Rn, U2, VPD,
+  Pa = 101.325,
+  G  = NULL
+) {
+  lambda <- cal_lambda(Ta = Ta)
+  gma <- cal_gma(Pa = Pa, Ta = Ta)
+  dlt <- cal_delta(Ta)
+  fu <- 2.6 * (1 + 0.54 * U2)     # wind function
 
-  coef_W2mm = 0.0864 / lambda
+  coef_W2mm <- 0.0864 / lambda
   if (is.null(G)) {
-    energy = Rn * coef_W2mm
+    energy <- Rn * coef_W2mm
   } else {
-    energy = (Rn - G) * coef_W2mm
+    energy <- (Rn - G) * coef_W2mm
   }
 
-  Ep = dlt / (dlt + gma) * energy + gma / (dlt + gma) * fu * VPD
+  Ep <- dlt / (dlt + gma) * energy + gma / (dlt + gma) * fu * VPD
 
   # core computing process
-  beta_p = (energy - Ep) / Ep
-  ea     = cal_es(Ta) - VPD
+  beta_p <- (energy - Ep) / Ep
+  ea <- cal_es(Ta) - VPD
 
   # beta_p * cal_es(Tws) - gma * Tws = beta_p * ea - gma * Ta
-  const = beta_p * ea - gma * Ta
+  const <- beta_p * ea - gma * Ta
   func <- function(Tws, beta_p = beta_p, gma = gma, const = const) {
     beta_p * 0.6108 * exp((17.27 * Tws) / (Tws + 237.3)) - gma * Tws - const
   }
 
-  input_data = data.frame(const = const, gma = gma, beta_p = beta_p)
-  Tws = sapply(1:nrow(input_data),FUN = function(num) {
-    if (NA %in% (input_data[num, ] %>% as.numeric())) return(NA)
-    uniroot(func, c(-100, 180), extendInt = 'yes', tol = 1e-7,
-            const  = input_data[num, ]$const,
-            gma    = input_data[num, ]$gma,
-            beta_p = input_data[num, ]$beta_p)$root})
-  Tws = dplyr::mutate(data.frame(Tws), Tws = ifelse(Tws <= Ta, Tws, Ta))$Tws
+  input_data <- data.frame(const = const, gma = gma, beta_p = beta_p)
+  Tws <- sapply(seq_len(nrow(input_data)), FUN = function(num) {
+    if (NA %in% as.numeric(input_data[num, ])) return(NA)
 
-  return(Tws)
+    uniroot(
+      func, c(-100, 180), extendInt = 'yes', tol = 1e-7,
+      const = input_data[num, ]$const,
+      gma = input_data[num, ]$gma,
+      beta_p = input_data[num, ]$beta_p)$root
+  })
+
+  Tws <- ifelse(Tws <= Ta, Tws, Ta)
+
+  Tws
 }
 
 
@@ -259,16 +266,14 @@ cal_Tws <- function(Ta, Rn, U2, VPD,
 #' @export
 #'
 #' @examples calib_alpha(20, 10, 0.5)
-calib_alpha <- function(Ta, Tws, VPD,
-                        Pa = 101.325) {
-  gma = cal_gma(Pa = Pa, Ta = Ta)
-  ea = cal_es(Ta) - VPD
-  es_Tws = cal_es(Tws)
-  dlt_Ta = cal_delta(Ta)
+calib_alpha <- function(
+  Ta, Tws, VPD,
+  Pa = 101.325
+) {
+  gma <- cal_gma(Pa = Pa, Ta = Ta)
+  ea <- cal_es(Ta) - VPD
+  es_Tws <- cal_es(Tws)
+  dlt_Ta <- cal_delta(Ta)
 
-  alpha = (dlt_Ta + gma) * (es_Tws - ea) / dlt_Ta * ((es_Tws - ea) + gma * (Tws - Ta))
-  return(alpha)
+  (dlt_Ta + gma) * (es_Tws - ea) / dlt_Ta * ((es_Tws - ea) + gma * (Tws - Ta))
 }
-
-
-

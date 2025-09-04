@@ -22,7 +22,7 @@ ET_summary(Ta, Rn, U2, VPD = VPD, Pa = 101.325, G = NULL, alpha = 1.26)
 \item{alpha}{Priestley-Taylor coefficient}
 }
 \value{
-A tibble containing various types of evapotranspiration results
+A `data.frame` containing various types of evapotranspiration results
 }
 \description{
 Calculate evapotranspiration of various types

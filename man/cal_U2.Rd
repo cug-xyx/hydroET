@@ -2,20 +2,20 @@
 % Please edit documentation in R/ET_params.R
 \name{cal_U2}
 \alias{cal_U2}
-\title{Converted zm wind speed to 2m wind speed}
+\title{Converted h(m) wind speed to 2(m) wind speed}
 \usage{
-cal_U2(Uz, z.wind = 10)
+cal_U2(Uz, z = 10)
 }
 \arguments{
 \item{Uz}{z meters wind speed [m s-1]}
 
-\item{z.wind}{measurement altitude of wind speed [m]}
+\item{z}{measurement altitude of wind speed [m]}
 }
 \value{
 2 meters wind speed [m s-1]
 }
 \description{
-Converted zm wind speed to 2m wind speed
+Converted h(m) wind speed to 2(m) wind speed
 }
 \examples{
 cal_U2(6)

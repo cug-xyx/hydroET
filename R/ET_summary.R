@@ -8,7 +8,7 @@
 #' @param G soil heat flux [W m-2]
 #' @param alpha Priestley-Taylor coefficient
 #'
-#' @return A tibble containing various types of evapotranspiration results
+#' @return A `data.frame` containing various types of evapotranspiration results
 #' @export
 #'
 #' @examples ET_summary(20, 50, 3, 0.5)

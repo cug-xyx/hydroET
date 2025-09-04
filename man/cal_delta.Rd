@@ -16,5 +16,5 @@ slope (delta) [kPa degC-1]
 Calculate the slope of the saturation vapor pressure curve at certain air
 }
 \examples{
-cal_delta(20)
+cal_delta(Ta = 20)
 }

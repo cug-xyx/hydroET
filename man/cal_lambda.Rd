@@ -16,5 +16,5 @@ lambda, latent heat of vaporization, about [2.45 MJ kg-1]
 Calculate lantent heat of vaporization
 }
 \examples{
-cal_lambda(20)
+cal_lambda(Ta = 20)
 }
