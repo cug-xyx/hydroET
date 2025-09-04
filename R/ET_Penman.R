@@ -10,25 +10,25 @@
 #' @return potential evapotranspiration calculated by Penman 1948 model [mm d-1]
 #' @export
 #'
-#' @examples ET_Penman1948(20, 50, 2, 0.5)
-ET_Penman1948 <- function(Ta, Rn, U2, VPD,
-                          Pa = 101.325,
-                          G  = NULL) {
-  lambda = cal_lambda(Ta = Ta)
-  gma    = cal_gma(Pa = Pa, Ta = Ta)
-  dlt    = cal_delta(Ta)
-  fu     = 2.6 * (1 + 0.54 * U2)     # wind function
+#' @examples PET_Penman1948(20, 50, 2, 0.5)
+PET_Penman1948 <- function(
+  Ta, Rn, U2, VPD,
+  Pa = 101.325,
+  G  = NULL
+) {
+  lambda <- cal_lambda(Ta = Ta)
+  gma <- cal_gma(Pa = Pa, Ta = Ta)
+  dlt <- cal_delta(Ta)
+  fu <- 2.6 * (1 + 0.54 * U2)     # wind function
 
-  coef_W2mm = 0.0864 / lambda
+  coef_W2mm <- 0.0864 / lambda
   if (is.null(G)) {
-    energy = Rn * coef_W2mm
+    energy <- Rn * coef_W2mm
   } else {
-    energy = (Rn - G) * coef_W2mm
+    energy <- (Rn - G) * coef_W2mm
   }
 
-  Ep = dlt / (dlt + gma) * energy + gma / (dlt + gma) * fu * VPD
-
-  return(Ep)
+  dlt / (dlt + gma) * energy + gma / (dlt + gma) * fu * VPD
 }
 
 
@@ -45,26 +45,26 @@ ET_Penman1948 <- function(Ta, Rn, U2, VPD,
 #' @return max value of potential evapotranspiration in dry environment [mm d-1]
 #' @export
 #'
-#' @examples ET_Penman1948_max(35, 50, 2)
-ET_Penman1948_max <- function(Tdry, Rn, U2,
-                              Pa = 101.325,
-                              Ta = NULL,
-                              G  = NULL) {
-  lambda   = cal_lambda(Ta = Ta)
-  gma      = cal_gma(Pa = Pa, Ta = Ta)
-  dlt_Tdry = cal_delta(Tdry)
-  fu       = 2.6 * (1 + 0.54 * U2)     # wind function
+#' @examples PET_Penman1948_max(35, 50, 2)
+PET_Penman1948_max <- function(
+  Tdry, Rn, U2,
+  Pa = 101.325,
+  Ta = NULL,
+  G  = NULL
+) {
+  lambda <- cal_lambda(Ta = Ta)
+  gma <- cal_gma(Pa = Pa, Ta = Ta)
+  dlt_Tdry <- cal_delta(Tdry)
+  fu <- 2.6 * (1 + 0.54 * U2)     # wind function
 
-  coef_W2mm = 0.0864 / lambda
+  coef_W2mm <- 0.0864 / lambda
   if (is.null(G)) {
     energy = Rn * coef_W2mm
   } else {
     energy = (Rn - G) * coef_W2mm
   }
 
-  Epmax = dlt_Tdry/(dlt_Tdry+gma)*energy + gma/(dlt_Tdry+gma)*fu*cal_es(Tdry)
-
-  return(Epmax)
+  dlt_Tdry / (dlt_Tdry + gma) * energy + gma / (dlt_Tdry + gma) * fu * cal_es(Tdry)
 }
 
 

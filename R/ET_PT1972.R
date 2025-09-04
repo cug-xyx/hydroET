@@ -10,8 +10,8 @@
 #' @return evapotranspiration calculated by Priestley-Taylor model [mm d-1]
 #' @export
 #'
-#' @examples ET_PT1972(10, 50)
-ET_PT1972 <- function(Tw, Rn,
+#' @examples PET_PT1972(10, 50)
+PET_PT1972 <- function(Tw, Rn,
                       Pa = 101.325,
                       alpha = 1.26,
                       Ta = NULL,

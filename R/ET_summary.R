@@ -19,8 +19,8 @@ ET_summary <- function(Ta, Rn, U2, VPD = VPD,
   Tw = cal_Tws(Ta = Ta, Rn = Rn, U2 = U2, VPD = VPD, Pa = Pa, G = G)
 
   ET_CR_Ma = ET_CR_Ma(Ta = Ta, Rn = Rn, U2 = U2, VPD = VPD, Pa = Pa, G = G)
-  ET_Penman48 = ET_Penman1948(Ta = Ta, Rn = Rn, U2 = U2, VPD = VPD, Pa = Pa, G = G)
-  ET_PT72 = ET_PT1972(Tw = Tw, Rn = Rn, Pa = Pa, alpha = alpha, Ta = Ta, G = G)
+  PET_Penman48 = PET_Penman1948(Ta = Ta, Rn = Rn, U2 = U2, VPD = VPD, Pa = Pa, G = G)
+  PET_PT72 = PET_PT1972(Tw = Tw, Rn = Rn, Pa = Pa, alpha = alpha, Ta = Ta, G = G)
 
-  data.frame(ET_CR_Ma, ET_Penman48, ET_PT72)
+  data.frame(ET_CR_Ma, PET_Penman48, PET_PT72)
 }
