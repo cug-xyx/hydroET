@@ -7,7 +7,8 @@
 #'
 #' @examples cal_lambda(Ta = 20)
 cal_lambda <- function(Ta = NULL) {
-  ifelse(is.null(Ta), 2.45, (2500 - Ta * 2.2) / 1000)
+  # TODO: find reference
+  ifelse(is.null(Ta), 2.45, 2.501 - 0.00237 * Ta)
 }
 
 
@@ -22,7 +23,7 @@ cal_lambda <- function(Ta = NULL) {
 #' @examples cal_gma(Pa = 100, Ta = 20)
 cal_gma <- function(Pa = 101.325, Ta = NULL) {
   cp <- 0.001013 # specific heat at constant pressure [MJ kg-1 degC-1]
-  epsilon <- 0.622    # ratio molecular weight of water vapor/dry air
+  epsilon <- 0.6220016    # ratio molecular weight of water vapor/dry air
   lambda  <- cal_lambda(Ta = Ta)
 
   gma <- (cp * Pa) / (epsilon * lambda)

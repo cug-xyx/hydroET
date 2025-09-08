@@ -12,12 +12,12 @@ remotes::install_github('cug-xyx/hydroET')
 
 ## (Potential) evapotranspiration model
 
-| Function name   | Model name                                                          | Type |
-| --------------- | ------------------------------------------------------------------- | ---- |
-| `ET_CR_Ma`      | **Calibration-free complementary relationship (CR) model**          | ET   |
-| `ET_Penman1948` | Penman 1948 model                                                   | PET  |
-| `ET_PT1972`     | Priestley-Taylor model                                              | PET  |
-| `ET_summary`    | A **tibble** containing various types of evapotranspiration results |      |
+| Function name   | Model name                                                            | Type |
+| --------------- | --------------------------------------------------------------------- | ---- |
+| `ET_CR_Ma`      | Calibration-free complementary relationship (CR) model                | ET   |
+| `ET_Penman1948` | Penman 1948 model                                                     | PET  |
+| `ET_PT1972`     | Priestley-Taylor model                                                | PET  |
+| `ET_summary`    | A `data.frame` containing various types of evapotranspiration results |      |
 
 
 ## TODO
