@@ -1,0 +1,24 @@
+```{r}
+library(data.table)
+library(magrittr)
+```
+
+```{r}
+fs <- dir('D:/Onedrive/Github/my_repos/hydroET/inst/data/', full.names = T)
+
+df <- lapply(fs, fread) %>% rbindlist()
+```
+
+```{r}
+df_forcing <- df %>% 
+  .[site == 'YuCheng', -'V1']
+
+df_forcing[, `:=`(
+  lon = 116.5702,
+  lat = 36.829
+)]
+```
+
+```{r}
+save(df_forcing, file = 'D:/Onedrive/Github/my_repos/hydroET/data/df_forcing.rda')
+```
