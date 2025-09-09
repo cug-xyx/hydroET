@@ -4,7 +4,7 @@
 \alias{ET_summary}
 \title{Calculate evapotranspiration of various types}
 \usage{
-ET_summary(Ta, Rn, U2, VPD = VPD, Pa = 101.325, G = NULL, alpha = 1.26)
+ET_summary(Ta, Rn, U2, VPD, Pa = 101.325, G = NULL, alpha = 1.26)
 }
 \arguments{
 \item{Ta}{air temperature [degC]}

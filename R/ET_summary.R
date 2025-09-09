@@ -12,15 +12,17 @@
 #' @export
 #'
 #' @examples ET_summary(20, 50, 3, 0.5)
-ET_summary <- function(Ta, Rn, U2, VPD = VPD,
-                       Pa = 101.325,
-                       G = NULL,
-                       alpha = 1.26) {
-  Tw = cal_Tws(Ta = Ta, Rn = Rn, U2 = U2, VPD = VPD, Pa = Pa, G = G)
+ET_summary <- function(
+  Ta, Rn, U2, VPD,
+  Pa = 101.325,
+  G = NULL,
+  alpha = 1.26
+) {
+  Tw <- cal_Tws(Ta = Ta, Rn = Rn, U2 = U2, VPD = VPD, Pa = Pa, G = G)
 
-  ET_CR_Ma = ET_CR_Ma(Ta = Ta, Rn = Rn, U2 = U2, VPD = VPD, Pa = Pa, G = G)
-  PET_Penman48 = PET_Penman1948(Ta = Ta, Rn = Rn, U2 = U2, VPD = VPD, Pa = Pa, G = G)
-  PET_PT72 = PET_PT1972(Tw = Tw, Rn = Rn, Pa = Pa, alpha = alpha, Ta = Ta, G = G)
+  ET_CR_Ma <- ET_CR_Ma(Ta = Ta, Rn = Rn, U2 = U2, VPD = VPD, Pa = Pa, G = G)
+  PET_Penman48 <- PET_Penman1948(Ta = Ta, Rn = Rn, U2 = U2, VPD = VPD, Pa = Pa, G = G)
+  PET_PT72 <- PET_PT1972(Ta =Ta, Rn = Rn, Pa = Pa, alpha = alpha)
 
   data.frame(ET_CR_Ma, PET_Penman48, PET_PT72)
 }

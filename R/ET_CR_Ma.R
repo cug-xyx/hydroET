@@ -20,12 +20,13 @@ ET_CR_Ma_ref <- function(
   Tdry <- cal_Tdry(Twb = Twb, Pa = Pa, Ta = Ta)
   Tw <- cal_Tws(Ta = Ta, Rn = Rn, U2 = U2, VPD = VPD, Pa = Pa, G = G)
 
-  Epmax <- ET_Penman1948_max(
+  Epmax <- PET_Penman1948_max(
     Tdry = Tdry, Rn = Rn, U2 = U2, Pa = Pa, Ta = Ta, G  = G)
-  Ep <- ET_Penman1948(
+  Ep <- PET_Penman1948(
     Ta = Ta, Rn = Rn, U2 = U2, VPD = VPD, Pa = Pa, G  = G)
-  Ew <- ET_PT1972(
-    Tw = Tw, Rn = Rn, Pa = Pa, alpha = 1.26, Ta = Ta, G = G)
+  # TODO: check this funciton
+  Ew <- PET_PT1972(
+    Ta = Tw, Rn = Rn, Pa = Pa, alpha = 1.26)
 
   # 2022-07-02 refer to Prof. Ning Ma's code
   Ew <- pmin(Ew, Ep)
@@ -63,12 +64,13 @@ ET_CR_Ma <- function(
   Tdry <- cal_Tdry(Twb = Twb, Pa = Pa, Ta = Ta)
   Tw <- cal_Tws(Ta = Ta, Rn = Rn, U2 = U2, VPD = VPD, Pa = Pa, G = G)
 
-  Epmax <- ET_Penman1948_max(
+  Epmax <- PET_Penman1948_max(
     Tdry = Tdry, Rn = Rn, U2 = U2, Pa = Pa, Ta = Ta, G  = G)
-  Ep <- ET_Penman1948(
+  Ep <- PET_Penman1948(
     Ta = Ta, Rn = Rn, U2 = U2, VPD = VPD, Pa = Pa, G  = G)
-  Ew <- ET_PT1972(
-    Tw = Tw, Rn = Rn, Pa = Pa, alpha = 1.26, Ta = Ta, G = G)
+  # TODO: check this funciton
+  Ew <- PET_PT1972(
+    Ta = Tw, Rn = Rn, Pa = Pa, alpha = 1.26)
 
   # old version
   X <- (Epmax - Ep) / (Epmax - Ew) * Ew / Ep

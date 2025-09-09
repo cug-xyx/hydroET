@@ -9,3 +9,15 @@ u2 <- 2.34
 # hydroTools
 
 ```
+
+```{r}
+rs <- 
+
+PET_Yang(
+  Rs, Rns, Rs_toa,
+  Ta, Ts, 
+  lat, 
+  Pa = 101.325,
+  e = 0.96
+)
+```
