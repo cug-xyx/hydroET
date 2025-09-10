@@ -21,29 +21,10 @@ ggsave(
 ```
 
 ```{r}
-df_forcing %>% 
-  mutate(
-    Rs_toa = hydroTools::cal_Rsi_toa(lat, yday(date)) %>% 
-      hydroTools::MJ_2W(), # [MJ m-2] -> [W m-2]
-    PET_PT1972 = PET_PT1972(Ta, Rn, Pa),
-    PET_Penman1948 = PET_Penman1948(Ta, Rn, U2, VPD, Pa),
-    PET_Yang = PET_Yang(Rs, Rns, Rs_toa, Ts, lat, Pa)
-  ) %>% 
-  summary()
-
-df_forcing
-hydroTools::MJ_2W()
-# ⁠[MJ m-2 day-1]⁠.
-
-?hydroTools::cal_Rsi_toa
-hydroTools::cal_Rsi_toa()
-```
-
-```{r}
 p <- df_forcing %>% 
   mutate(
     Rs_toa = hydroTools::cal_Rsi_toa(lat, yday(date)) %>% 
-      hydroTools::MJ_2W(), # [MJ m-2] -> [W m-2]
+      hydroTools::MJ_2W(),
     PET_PT1972 = PET_PT1972(Ta, Rn, Pa),
     PET_Penman1948 = PET_Penman1948(Ta, Rn, U2, VPD, Pa),
     PET_Yang = PET_Yang(Rs, Rns, Rs_toa, Ts, lat, Pa)
@@ -59,4 +40,20 @@ ggsave(
   plot = p, filename = 'D:/Onedrive/Github/my_repos/hydroET/inst/Figures/Figure_PET_ts.jpg',
   dpi = 600, height = 5, width = 8
 )
+```
+
+```{r}
+system.time({
+  df_forcing %>% 
+  mutate(
+    temp = cal_es_cpp(Ts)
+  )
+})
+
+system.time({
+  df_forcing %>% 
+  mutate(
+    temp = cal_es(Ts)
+  )
+})
 ```

@@ -17,7 +17,7 @@ remotes::install_github('cug-xyx/hydroET')
 | `ET_CR_Ma`       | Calibration-free complementary relationship (CR) model                |
 | `PET_Penman1948` | Penman 1948 model                                                     |
 | `PET_PT1972`     | Priestley-Taylor model                                                |
-| `PET_Yang`       | Maximum evaporation model                                             |
+| `PET_Yang2019`   | Maximum evaporation model                                             |
 | `ET_summary`     | A `data.frame` containing various types of evapotranspiration results |
 
 
@@ -31,4 +31,5 @@ remotes::install_github('cug-xyx/hydroET')
   - [ ] grid scale
 - [x] Maximum Evaporation Theory (Yuting Yang, ML Roderick, Zhuoyi Tu)
 - [ ] PET algorithm developed by Sha Zhou
+- [ ] Develop `cpp` version functions
 - [ ] Using `use method` to process `SpatRaster` object

@@ -81,19 +81,6 @@ cal_VPD <- function(
 }
 
 
-#' Calculate saturation vapor pressure
-#'
-#' @param Ta air temperature [degC]
-#'
-#' @return saturation vapor pressure [kPa]
-#' @export
-#'
-#' @examples cal_es(20)
-cal_es <- function(Ta) {
-  0.6108 * exp((17.27 * Ta) / (Ta + 237.3))
-}
-
-
 #' Convert vapor pressure deficit to dew-point temperature
 #'
 #' @param VPD vapor pressure deficit [kPa]
