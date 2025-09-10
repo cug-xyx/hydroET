@@ -15,7 +15,10 @@ df_forcing <- df %>%
 
 df_forcing[, `:=`(
   lon = 116.5702,
-  lat = 36.829
+  lat = 36.829,
+  Prcp = Prcp * 1000000,
+  ET_ERA5L = ET_ERA5L * 1000000,
+  PET_ERA5L = PET_ERA5L * 1000000
 )]
 ```
 

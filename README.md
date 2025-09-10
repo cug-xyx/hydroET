@@ -12,12 +12,13 @@ remotes::install_github('cug-xyx/hydroET')
 
 ## (Potential) evapotranspiration model
 
-| Function name   | Model name                                                            | Type |
-| --------------- | --------------------------------------------------------------------- | ---- |
-| `ET_CR_Ma`      | Calibration-free complementary relationship (CR) model                | ET   |
-| `ET_Penman1948` | Penman 1948 model                                                     | PET  |
-| `ET_PT1972`     | Priestley-Taylor model                                                | PET  |
-| `ET_summary`    | A `data.frame` containing various types of evapotranspiration results |      |
+| Function name    | Model name                                                            |
+| ---------------- | --------------------------------------------------------------------- |
+| `ET_CR_Ma`       | Calibration-free complementary relationship (CR) model                |
+| `PET_Penman1948` | Penman 1948 model                                                     |
+| `PET_PT1972`     | Priestley-Taylor model                                                |
+| `PET_Yang`       | Maximum evaporation model                                             |
+| `ET_summary`     | A `data.frame` containing various types of evapotranspiration results |
 
 
 ## TODO
@@ -26,6 +27,8 @@ remotes::install_github('cug-xyx/hydroET')
 - [x] Calibration of `alpha` (Appendix B in Ma and Szilagyi, 2019)
 - [ ] Check `ET_CR_Ma` and `ET_CR_Ma_ref`, which one is the correct algorithm
 - [ ] Develop convenient functions to directly download ET/PET forcing data on `GEE`
-- [ ] Maximum Evaporation Theory (Yuting Yang, Zhuoyi Tu)
+  - [x] site scale
+  - [ ] grid scale
+- [x] Maximum Evaporation Theory (Yuting Yang, ML Roderick, Zhuoyi Tu)
 - [ ] PET algorithm developed by Sha Zhou
 - [ ] Using `use method` to process `SpatRaster` object

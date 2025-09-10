@@ -14,10 +14,6 @@ PET_PT1972(Ta, Rn, Pa = 101.325, alpha = 1.26)
 \item{Pa}{air pressure [kPa]}
 
 \item{alpha}{Priestley-Taylor coefficient}
-
-\item{Tw}{wet environment temperature [degC]}
-
-\item{G}{soil heat flux [W m-2]}
 }
 \value{
 evapotranspiration calculated by Priestley-Taylor model [mm d-1]

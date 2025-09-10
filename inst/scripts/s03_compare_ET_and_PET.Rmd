@@ -1,0 +1,62 @@
+```{r}
+library(ggplot2)
+library(data.table)
+library(magrittr)
+library(dplyr)
+```
+
+# visualization
+
+```{r}
+p <- df_forcing %>% 
+  melt(c('site', 'lon', 'lat', 'date')) %>% 
+  ggplot(aes(date, value)) +
+  geom_point() +
+  facet_wrap(~variable, scales = 'free', ncol = 1)
+
+ggsave(
+  plot = p, filename = 'D:/Onedrive/Github/my_repos/hydroET/inst/Figures/Figure_df_forcing_ts.jpg',
+  dpi = 600, height = 20, width = 12
+)
+```
+
+```{r}
+df_forcing %>% 
+  mutate(
+    Rs_toa = hydroTools::cal_Rsi_toa(lat, yday(date)) %>% 
+      hydroTools::MJ_2W(), # [MJ m-2] -> [W m-2]
+    PET_PT1972 = PET_PT1972(Ta, Rn, Pa),
+    PET_Penman1948 = PET_Penman1948(Ta, Rn, U2, VPD, Pa),
+    PET_Yang = PET_Yang(Rs, Rns, Rs_toa, Ts, lat, Pa)
+  ) %>% 
+  summary()
+
+df_forcing
+hydroTools::MJ_2W()
+# ⁠[MJ m-2 day-1]⁠.
+
+?hydroTools::cal_Rsi_toa
+hydroTools::cal_Rsi_toa()
+```
+
+```{r}
+p <- df_forcing %>% 
+  mutate(
+    Rs_toa = hydroTools::cal_Rsi_toa(lat, yday(date)) %>% 
+      hydroTools::MJ_2W(), # [MJ m-2] -> [W m-2]
+    PET_PT1972 = PET_PT1972(Ta, Rn, Pa),
+    PET_Penman1948 = PET_Penman1948(Ta, Rn, U2, VPD, Pa),
+    PET_Yang = PET_Yang(Rs, Rns, Rs_toa, Ts, lat, Pa)
+  ) %>% 
+  select(date, PET_PT1972, PET_Penman1948, PET_Yang) %>% 
+  melt(c('date')) %>% 
+  .[between(year(date), 2018, 2020)] %>% 
+  ggplot(aes(date, value)) +
+  geom_point(size = 0.5) +
+  facet_wrap(~variable, ncol = 1, scales = 'free')
+
+ggsave(
+  plot = p, filename = 'D:/Onedrive/Github/my_repos/hydroET/inst/Figures/Figure_PET_ts.jpg',
+  dpi = 600, height = 5, width = 8
+)
+```
