@@ -12,14 +12,14 @@ remotes::install_github('cug-xyx/hydroET')
 
 ## (Potential) evapotranspiration models
 
-| Function name    | Model name                                                            | Status |
-| ---------------- | --------------------------------------------------------------------- | ------ |
-| `ET_CR_Ma`       | Calibration-free complementary relationship (CR) model                | ❌     |
-| `PET_Penman1948` | Penman 1948 model                                                     | ✅     |
-| `PET_PT1972`     | Priestley-Taylor model                                                | ✅     |
-| `PET_Yang2019`   | Maximum evaporation model                                             | ✅     |
-| `PET_Zhou2024`   | *Energy-based PET* (PETe)                                             | ✅     |
-| `ET_summary`     | A `data.frame` containing various types of evapotranspiration results | ✅     |
+| Function name    | Model name                                                            | Status | Language |
+| ---------------- | --------------------------------------------------------------------- | ------ | -------- |
+| `ET_CR_Ma`       | Calibration-free complementary relationship (CR) model                | ❌     | `R`      |
+| `PET_Penman1948` | Penman 1948 model                                                     | ✅     | `cpp`      |
+| `PET_PT1972`     | Priestley-Taylor model                                                | ✅     | `cpp`      |
+| `PET_Yang2019`   | Maximum evaporation model                                             | ✅     | `cpp`    |
+| `PET_Zhou2024`   | *Energy-based PET* (PETe)                                             | ✅     | `cpp`    |
+| `ET_summary`     | A `data.frame` containing various types of evapotranspiration results | ❌     |          |
 
 ## TODO
 
@@ -31,7 +31,7 @@ remotes::install_github('cug-xyx/hydroET')
   - [ ] grid scale
 - [x] Maximum Evaporation Theory (Yuting Yang, ML Roderick, Zhuoyi Tu)
 - [x] PET algorithm developed by Zhou & Yu (2024)
-- [ ] Develop `cpp` version functions
+- [x] Develop `cpp` version functions
 - [ ] Using `use method` to process `SpatRaster` object
 - [ ] Add references in `doc`
 - [ ] Deploy `gh-pages`

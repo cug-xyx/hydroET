@@ -89,3 +89,49 @@ PET_Zhou2024
 #' @return potential evapotranspiration
 #' @export
 PET_Yang2019
+
+
+#' Calculate evapotranspiration by Priestley-Taylor (PT) model
+#' @name PET_PT1972
+#'
+#' @param Ta air temperature [degC]
+#' @param Rn surface net radiation [W m-2]
+#' @param Pa air pressure [kPa]
+#'
+#' @return evapotranspiration calculated by Priestley-Taylor model [mm d-1]
+#' @export
+#'
+#' @examples PET_PT1972(10, 50)
+PET_PT1972
+
+
+#' Calculate potential evapotranspiration by Penman 1948 model
+#' @name PET_Penman1948
+#'
+#' @param Ta air temperature [degC]
+#' @param Rn surface net radiation [W m-2]
+#' @param U2 2 meters wind speed [m s-1]
+#' @param VPD vapor pressure deficit [kPa]
+#' @param Pa air pressure [kPa]
+#'
+#' @return potential evapotranspiration calculated by Penman 1948 model [mm d-1]
+#' @export
+#'
+#' @examples PET_Penman1948(20, 50, 2, 0.5, 101)
+PET_Penman1948
+
+
+#' Calculate maximum value of potential evapotranspiration in dry environment
+#' @name PET_Penman1948_max
+#'
+#' @param Ta air temperature [degC]
+#' @param Tdry dry environment temperature [degC]
+#' @param Rn surface net radiation [W m-2]
+#' @param U2 2 meters wind speed [m s-1]
+#' @param Pa air pressure [kPa]
+#'
+#' @return max value of potential evapotranspiration in dry environment [mm d-1]
+#' @export
+#'
+#' @examples PET_Penman1948_max(25, 35, 50, 2, 101)
+PET_Penman1948_max

@@ -10,6 +10,49 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// PET_PT1972
+NumericVector PET_PT1972(NumericVector Ta, NumericVector Rn, NumericVector Pa);
+RcppExport SEXP _hydroET_PET_PT1972(SEXP TaSEXP, SEXP RnSEXP, SEXP PaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type Ta(TaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Rn(RnSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Pa(PaSEXP);
+    rcpp_result_gen = Rcpp::wrap(PET_PT1972(Ta, Rn, Pa));
+    return rcpp_result_gen;
+END_RCPP
+}
+// PET_Penman1948
+NumericVector PET_Penman1948(NumericVector Ta, NumericVector Rn, NumericVector U2, NumericVector VPD, NumericVector Pa);
+RcppExport SEXP _hydroET_PET_Penman1948(SEXP TaSEXP, SEXP RnSEXP, SEXP U2SEXP, SEXP VPDSEXP, SEXP PaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type Ta(TaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Rn(RnSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type U2(U2SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type VPD(VPDSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Pa(PaSEXP);
+    rcpp_result_gen = Rcpp::wrap(PET_Penman1948(Ta, Rn, U2, VPD, Pa));
+    return rcpp_result_gen;
+END_RCPP
+}
+// PET_Penman1948_max
+NumericVector PET_Penman1948_max(NumericVector Ta, NumericVector Tdry, NumericVector Rn, NumericVector U2, NumericVector Pa);
+RcppExport SEXP _hydroET_PET_Penman1948_max(SEXP TaSEXP, SEXP TdrySEXP, SEXP RnSEXP, SEXP U2SEXP, SEXP PaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type Ta(TaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Tdry(TdrySEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Rn(RnSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type U2(U2SEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Pa(PaSEXP);
+    rcpp_result_gen = Rcpp::wrap(PET_Penman1948_max(Ta, Tdry, Rn, U2, Pa));
+    return rcpp_result_gen;
+END_RCPP
+}
 // PET_Yang2019
 NumericVector PET_Yang2019(NumericVector Rs, NumericVector Rns, NumericVector Rs_toa, NumericVector Ts, NumericVector lat, NumericVector Pa);
 RcppExport SEXP _hydroET_PET_Yang2019(SEXP RsSEXP, SEXP RnsSEXP, SEXP Rs_toaSEXP, SEXP TsSEXP, SEXP latSEXP, SEXP PaSEXP) {
@@ -100,6 +143,9 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_hydroET_PET_PT1972", (DL_FUNC) &_hydroET_PET_PT1972, 3},
+    {"_hydroET_PET_Penman1948", (DL_FUNC) &_hydroET_PET_Penman1948, 5},
+    {"_hydroET_PET_Penman1948_max", (DL_FUNC) &_hydroET_PET_Penman1948_max, 5},
     {"_hydroET_PET_Yang2019", (DL_FUNC) &_hydroET_PET_Yang2019, 6},
     {"_hydroET_PET_Zhou2024", (DL_FUNC) &_hydroET_PET_Zhou2024, 5},
     {"_hydroET_cal_es", (DL_FUNC) &_hydroET_cal_es, 1},

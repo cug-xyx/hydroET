@@ -22,7 +22,7 @@ p <- df_forcing %>%
   ) %>% 
   select(date, tidyselect::starts_with('PET'), -PET_ERA5L) %>% 
   melt(c('date')) %>% 
-  .[between(year(date), 2018, 2020)] %>% 
+  .[between(year(date), 2017, 2020)] %>% 
   mutate(value = ifelse(value < 0, 0, value)) %>% 
   ggplot(aes(date, value)) +
   geom_point(size = 0.5) +
