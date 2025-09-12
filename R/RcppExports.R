@@ -5,3 +5,19 @@ cal_es <- function(Ta) {
     .Call(`_hydroET_cal_es`, Ta)
 }
 
+cal_lambda <- function(Ta) {
+    .Call(`_hydroET_cal_lambda`, Ta)
+}
+
+cal_gma <- function(Ta, Pa) {
+    .Call(`_hydroET_cal_gma`, Ta, Pa)
+}
+
+cal_delta <- function(Ta) {
+    .Call(`_hydroET_cal_delta`, Ta)
+}
+
+cal_U2 <- function(Uz, z = 10.0) {
+    .Call(`_hydroET_cal_U2`, Uz, z)
+}
+

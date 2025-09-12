@@ -10,7 +10,7 @@ You can install the hydroET from github:
 remotes::install_github('cug-xyx/hydroET')
 ```
 
-## (Potential) evapotranspiration model
+## (Potential) evapotranspiration models
 
 | Function name    | Model name                                                            | Status |
 | ---------------- | --------------------------------------------------------------------- | ------ |
@@ -21,7 +21,6 @@ remotes::install_github('cug-xyx/hydroET')
 | `PET_Zhou2024`   | *Energy-based PET* (PETe)                                             | ✅     |
 | `ET_summary`     | A `data.frame` containing various types of evapotranspiration results | ✅     |
 
-
 ## TODO
 
 - [x] Accuracy of inverse function to derive `Tws`and`Twb`
@@ -31,7 +30,7 @@ remotes::install_github('cug-xyx/hydroET')
   - [x] site scale
   - [ ] grid scale
 - [x] Maximum Evaporation Theory (Yuting Yang, ML Roderick, Zhuoyi Tu)
-- [ ] PET algorithm developed by Zhou & Yu (2025)
+- [x] PET algorithm developed by Zhou & Yu (2024)
 - [ ] Develop `cpp` version functions
 - [ ] Using `use method` to process `SpatRaster` object
 - [ ] Add references in `doc`

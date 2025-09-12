@@ -21,9 +21,59 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// cal_lambda
+NumericVector cal_lambda(NumericVector Ta);
+RcppExport SEXP _hydroET_cal_lambda(SEXP TaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type Ta(TaSEXP);
+    rcpp_result_gen = Rcpp::wrap(cal_lambda(Ta));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cal_gma
+NumericVector cal_gma(NumericVector Ta, NumericVector Pa);
+RcppExport SEXP _hydroET_cal_gma(SEXP TaSEXP, SEXP PaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type Ta(TaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Pa(PaSEXP);
+    rcpp_result_gen = Rcpp::wrap(cal_gma(Ta, Pa));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cal_delta
+NumericVector cal_delta(NumericVector Ta);
+RcppExport SEXP _hydroET_cal_delta(SEXP TaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type Ta(TaSEXP);
+    rcpp_result_gen = Rcpp::wrap(cal_delta(Ta));
+    return rcpp_result_gen;
+END_RCPP
+}
+// cal_U2
+NumericVector cal_U2(NumericVector Uz, double z);
+RcppExport SEXP _hydroET_cal_U2(SEXP UzSEXP, SEXP zSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type Uz(UzSEXP);
+    Rcpp::traits::input_parameter< double >::type z(zSEXP);
+    rcpp_result_gen = Rcpp::wrap(cal_U2(Uz, z));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_hydroET_cal_es", (DL_FUNC) &_hydroET_cal_es, 1},
+    {"_hydroET_cal_lambda", (DL_FUNC) &_hydroET_cal_lambda, 1},
+    {"_hydroET_cal_gma", (DL_FUNC) &_hydroET_cal_gma, 2},
+    {"_hydroET_cal_delta", (DL_FUNC) &_hydroET_cal_delta, 1},
+    {"_hydroET_cal_U2", (DL_FUNC) &_hydroET_cal_U2, 2},
     {NULL, NULL, 0}
 };
 
