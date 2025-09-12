@@ -8,3 +8,4 @@ inst/data/*
 inst/Figures/*
 
 .vscode/*
+*.ipynb

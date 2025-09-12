@@ -1,0 +1,80 @@
+```{r}
+library(data.table)
+library(magrittr)
+library(dplyr)
+library(ggplot2)
+
+devtools::load_all('D:/Onedrive/Github/my_repos/ggpromax/')
+```
+
+# monthly ts
+
+```{r}
+df_month <- df_forcing %>% 
+  mutate(
+    Rs_toa = hydroTools::cal_Rsi_toa(lat, yday(date)) %>% 
+      hydroTools::MJ_2W(),
+    PET_PT1972 = PET_PT1972(Ta, Rn, Pa),
+    PET_Penman1948 = PET_Penman1948(Ta, Rn, U2, VPD, Pa),
+    PET_Yang2019 = PET_Yang2019(Rs, Rns, Rs_toa, Ts, lat, Pa)
+  ) %>% 
+  .[, .(date, Prcp, PET_Penman1948, PET_PT1972, PET_Yang2019)] %>% 
+  melt(c('date', 'Prcp')) %>% 
+  .[, lapply(.SD, sum, na.rm=T), .(date = lubridate::ym(format(date, '%Y-%m')), variable)]
+```
+
+# PET ts
+
+```{r}
+df_spei <- df_month %>% 
+  mutate(WB = Prcp - value) %>% 
+  .[, .(date, value, SPEI = SPEI::spei(WB, 6, na.rm = TRUE)$fitted), .(variable)]
+
+p <- df_spei %>% 
+  .[, .(value = sum(value, na.rm=T)), .(date=year(date), variable)] %>% 
+  .[, .(date, value = value - mean(value, na.rm=T)), .(variable)] %>% 
+  ggplot(aes(date, value)) +
+  theme_article() +
+  geom_line(aes(color = variable), linewidth = 0.3) +
+  labs(y = 'PET anomaly (mm/yr)')
+
+ggsave(
+  plot = p, filename = 'D:/Onedrive/Github/my_repos/hydroET/inst/Figures/Figure_PET_SPEI.jpg',
+  dpi = 600, height = 3, width = 8
+)
+```
+
+# SPEI ts
+
+```{r}
+p <- df_spei %>% 
+  .[, .(SPEI = mean(SPEI, na.rm=T)), .(date=year(date), variable)] %>% 
+  ggplot(aes(date, SPEI)) +
+  theme_article() +
+  geom_line(aes(color = variable), linewidth = 0.3) +
+  labs(y = 'SPEI6 (z-units)')
+
+ggsave(
+  plot = p, filename = 'D:/Onedrive/Github/my_repos/hydroET/inst/Figures/Figure_PET_SPEI.jpg',
+  dpi = 600, height = 3, width = 8
+)
+```
+
+# density
+
+```{r}
+p <- df_spei %>% 
+  ggplot(aes(x = SPEI)) +
+  theme_article() +
+  geom_density(aes(color = variable), fill = NA, alpha = 0.5, adjust = 0.8) +
+  theme(
+    legend.position = c(0, 1),
+    legend.justification = c(0, 1)
+  ) +
+  labs(color = NULL)
+
+ggsave(
+  plot = p, filename = 'D:/Onedrive/Github/my_repos/hydroET/inst/Figures/Figure_PET_SPEI_density.jpg',
+  dpi = 600, height = 3, width = 4
+)
+```
