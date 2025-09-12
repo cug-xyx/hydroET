@@ -29,39 +29,7 @@ p <- df_forcing %>%
   facet_wrap(~variable, ncol = 1, scales = 'free')
 
 ggsave(
-  plot = p, filename = 'D:/Onedrive/Github/my_repos/hydroET/inst/Figures/Figure_PET_ts.jpg',
+  plot = p, filename = 'D:/xieyx/Onedrive/Github/my_repos/hydroET/inst/Figures/Figure_PET_ts.jpg',
   dpi = 600, height = 5, width = 8
 )
-```
-
-```{r}
-system.time({
-  df_forcing %>% 
-  mutate(
-    Rs_toa = hydroTools::cal_Rsi_toa(lat, yday(date)) %>% 
-      hydroTools::MJ_2W(),
-    ea = cal_es(Tdew)
-  ) %>% 
-  mutate(
-    PET_PT1972 = PET_PT1972(Ta, Rn, Pa),
-    PET_Penman1948 = PET_Penman1948(Ta, Rn, U2, VPD, Pa),
-    PET_Yang2019 = PET_Yang2019(Rs, Rns, Rs_toa, Ts, lat, Pa),
-    PET_Zhou2024 = PET_Zhou2024(Rn, Ta, Ts, ea, Pa)
-  )
-})
-
-system.time({
-  df_forcing %>% 
-  mutate(
-    Rs_toa = hydroTools::cal_Rsi_toa(lat, yday(date)) %>% 
-      hydroTools::MJ_2W(),
-    ea = cal_es(Tdew)
-  ) %>% 
-  mutate(
-    PET_PT1972 = PET_PT1972(Ta, Rn, Pa),
-    PET_Penman1948 = PET_Penman1948(Ta, Rn, U2, VPD, Pa),
-    PET_Yang2019 = PET_Yang2019(Rs, Rns, Rs_toa, Ts, lat, Pa),
-    PET_Zhou2024 = PET_Zhou2024_cpp(Rn, Ta, Ts, ea, Pa)
-  )
-})
 ```

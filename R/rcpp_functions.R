@@ -58,3 +58,34 @@ cal_delta
 #'
 #' @examples cal_U2(6)
 cal_U2
+
+
+#' Potential evapotranspiration (PET) calculated using
+#' algorithm developed by Zhou and Yu (2024)
+#' @name PET_Zhou2024
+#'
+#' @param Rn net surface radiation [W m-2]
+#' @param Ta near surface (2m) temperature [degC]
+#' @param Ts temperature at the evaporating surface [degC]
+#' @param ea actual vapor pressure [kPa]
+#' @param Pa surface pressure [kPa]
+#'
+#' @return potential evapotranspiration
+#' @export
+PET_Zhou2024
+
+
+#' Potential evapotranspiration (PET) calculated using
+#' Maximum evaporating model developed by Yang and Roderick (2019)
+#' @name PET_Yang2019
+#'
+#' @param Rs shortwave radiation (solar radiation) [W m-2]
+#' @param Rns net shortwave radiation [W m-2]
+#' @param Rs_toa shortwave radiation form top of atmosphere [W m-2]
+#' @param Ts temperature at the evaporating surface [degC]
+#' @param lat latitude [deg]
+#' @param Pa surface pressure [kPa]
+#'
+#' @return potential evapotranspiration
+#' @export
+PET_Yang2019

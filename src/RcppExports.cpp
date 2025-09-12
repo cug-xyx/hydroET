@@ -10,6 +10,37 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// PET_Yang2019
+NumericVector PET_Yang2019(NumericVector Rs, NumericVector Rns, NumericVector Rs_toa, NumericVector Ts, NumericVector lat, NumericVector Pa);
+RcppExport SEXP _hydroET_PET_Yang2019(SEXP RsSEXP, SEXP RnsSEXP, SEXP Rs_toaSEXP, SEXP TsSEXP, SEXP latSEXP, SEXP PaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type Rs(RsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Rns(RnsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Rs_toa(Rs_toaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Ts(TsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type lat(latSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Pa(PaSEXP);
+    rcpp_result_gen = Rcpp::wrap(PET_Yang2019(Rs, Rns, Rs_toa, Ts, lat, Pa));
+    return rcpp_result_gen;
+END_RCPP
+}
+// PET_Zhou2024
+NumericVector PET_Zhou2024(NumericVector Rn, NumericVector Ta, NumericVector Ts, NumericVector ea, NumericVector Pa);
+RcppExport SEXP _hydroET_PET_Zhou2024(SEXP RnSEXP, SEXP TaSEXP, SEXP TsSEXP, SEXP eaSEXP, SEXP PaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type Rn(RnSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Ta(TaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Ts(TsSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type ea(eaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Pa(PaSEXP);
+    rcpp_result_gen = Rcpp::wrap(PET_Zhou2024(Rn, Ta, Ts, ea, Pa));
+    return rcpp_result_gen;
+END_RCPP
+}
 // cal_es
 NumericVector cal_es(NumericVector Ta);
 RcppExport SEXP _hydroET_cal_es(SEXP TaSEXP) {
@@ -69,6 +100,8 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_hydroET_PET_Yang2019", (DL_FUNC) &_hydroET_PET_Yang2019, 6},
+    {"_hydroET_PET_Zhou2024", (DL_FUNC) &_hydroET_PET_Zhou2024, 5},
     {"_hydroET_cal_es", (DL_FUNC) &_hydroET_cal_es, 1},
     {"_hydroET_cal_lambda", (DL_FUNC) &_hydroET_cal_lambda, 1},
     {"_hydroET_cal_gma", (DL_FUNC) &_hydroET_cal_gma, 2},
