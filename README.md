@@ -29,7 +29,7 @@ remotes::install_github('cug-xyx/hydroET')
 - [x] Develop convenient functions to directly download ET/PET forcing data on `GEE`
   - [x] site scale
   - [x] grid scale
-- [x] Maximum Evaporation Theory (Yuting Yang, ML Roderick, Zhuoyi Tu)
+- [x] Maximum Evaporation Theory (Yuting Yang, Zhuoyi Tu)
 - [x] PET algorithm developed by Zhou & Yu (2024)
 - [x] Develop `cpp` version functions
 - [ ] Using `use method` to process `SpatRaster` object
