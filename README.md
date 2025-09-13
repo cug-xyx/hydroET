@@ -26,13 +26,12 @@ remotes::install_github('cug-xyx/hydroET')
 - [x] Accuracy of inverse function to derive `Tws`and`Twb`
 - [x] Calibration of `alpha` (Appendix B in Ma and Szilagyi, 2019)
 - [ ] Check `ET_CR_Ma` and `ET_CR_Ma_ref`, which one is the correct algorithm
-- [ ] Develop convenient functions to directly download ET/PET forcing data on `GEE`
+- [x] Develop convenient functions to directly download ET/PET forcing data on `GEE`
   - [x] site scale
-  - [ ] grid scale
+  - [x] grid scale
 - [x] Maximum Evaporation Theory (Yuting Yang, ML Roderick, Zhuoyi Tu)
 - [x] PET algorithm developed by Zhou & Yu (2024)
 - [x] Develop `cpp` version functions
 - [ ] Using `use method` to process `SpatRaster` object
 - [ ] Add references in `doc`
 - [ ] Deploy `gh-pages`
-- [ ] Revisiting `rgee`

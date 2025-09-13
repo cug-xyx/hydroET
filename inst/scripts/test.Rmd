@@ -166,3 +166,83 @@ df %>%
   ifel(. < 0, ., NA) %>% 
   plot()
 ```
+
+### 逐变量检查`PET_Zhou2024`
+
+> Zhou and Yu (2024)
+> beta >= beta_w >= beta_o
+>
+> Zhou and Yu (2025), GCB
+>
+> beta >= beta_w > 0
+> 通常beta_w是由于地表温度小于空气温度；
+> 另一方面，在积雪覆盖地区感热可能为负，因此beta_w和beta都为负值是可能的
+
+```{r}
+df %>% 
+  mutate(
+    lat = y,
+    Rs_toa = hydroTools::cal_Rsi_toa(lat, yday(date)) %>% 
+      hydroTools::MJ_2W(),
+    ea = cal_es(Tdew)
+  ) %>% 
+  mutate(
+    lambda = cal_lambda(Ta) / 86400 * 1e6, #  后续系数目的：[MJ kg-1] -> [W m-2]
+    gamma = cal_gma(Ta, Pa),
+    es_s = cal_es(Ts),
+    delta = (es_s - cal_es(Ta)) / (Ts - Ta),
+    beta = H / LE,
+    beta = ifelse(is.infinite(beta), sign(beta) * 1e8, beta),
+    # beta_2 = Rn / LE - 1,
+    # beta_2 = ifelse(is.infinite(beta_2), sign(beta) * 1e8, beta_2),
+    beta_o = 0.24 * gamma / delta,
+    beta_w = (gamma * (Ts - Ta)) / (es_s - ea),
+    beta_w = pmin(beta_w, beta) %>% pmax(beta_o),
+    PET_PT1972 = PET_PT1972(Ta, Rn, Pa),
+    PET_Penman1948 = PET_Penman1948(Ta, Rn, U2, VPD, Pa),
+    PET_Yang2019 = PET_Yang2019(Rs, Rns, Rs_toa, Ts, lat, Pa),
+    PET_Zhou2024 = Rn / (1 + beta_w) / lambda
+  ) %>% 
+  # select(starts_with('PET')) %>% 
+  # .[beta_w < -5, .(beta_w, T_diff = (Ts - Ta), e_diff = (es_s - ea))] %>% 
+  summary()
+```
+
+```{r}
+df_PET <- df %>% 
+  mutate(
+    lat = y,
+    Rs_toa = hydroTools::cal_Rsi_toa(lat, yday(date)) %>% 
+      hydroTools::MJ_2W(),
+    ea = cal_es(Tdew)
+  ) %>% 
+  mutate(
+    lambda = cal_lambda(Ta) / 86400 * 1e6, #  后续系数目的：[MJ kg-1] -> [W m-2]
+    lambda_hydroTools = hydroTools::cal_lambda(Ta),
+    gamma = cal_gma(Ta, Pa),
+    gamma_hydroTools = hydroTools::cal_gamma(Ta, Pa),
+    es_s = cal_es(Ts),
+    es_s_hydroTools = hydroTools::cal_es(Ts),
+    delta = (es_s - cal_es(Ta)) / (Ts - Ta),
+    beta = H / LE,
+    beta = ifelse(is.infinite(beta), sign(beta) * 1e8, beta),
+    beta_2 = Rn / LE - 1,
+    beta_2 = ifelse(is.infinite(beta_2), sign(beta) * 1e8, beta_2),
+    beta_o = 0.24 * gamma / delta,
+    beta_w = (gamma * (Ts - Ta)) / (es_s - ea),
+    beta_w = pmin(beta_w, beta) %>% pmax(beta_o),
+    PET_PT1972 = PET_PT1972(Ta, Rn, Pa),
+    PET_Penman1948 = PET_Penman1948(Ta, Rn, U2, VPD, Pa),
+    PET_Yang2019 = PET_Yang2019(Rs, Rns, Rs_toa, Ts, lat, Pa),
+    PET_Zhou2024 = Rn / (1 + beta_w) / lambda,
+    PET_Zhou2024_cpp = PET_Zhou2024(Rn, Ta, Ts, ea, Pa, H, LE)
+  ) %>% 
+  select(lon=x, lat, date, tidyselect::starts_with('PET'), -PET_ERA5L)
+
+df_PET %>% 
+  .[date == lubridate::ymd(20240120), -'date'] %>% 
+  rast(crs = 'EPSG:4326') %>% 
+  extend(ext(-180, 180, -90, 90)) %>% 
+  # classify(c(-Inf, seq(0, 20, 2.5), Inf)) %>% 
+  plot(col = rcolors::get_color('amwg256'), range = c(-5, 10))
+```

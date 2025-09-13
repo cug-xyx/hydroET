@@ -17,8 +17,8 @@ PET_Yang2019 <- function(Rs, Rns, Rs_toa, Ts, lat, Pa) {
     .Call(`_hydroET_PET_Yang2019`, Rs, Rns, Rs_toa, Ts, lat, Pa)
 }
 
-PET_Zhou2024 <- function(Rn, Ta, Ts, ea, Pa) {
-    .Call(`_hydroET_PET_Zhou2024`, Rn, Ta, Ts, ea, Pa)
+PET_Zhou2024 <- function(Rn, Ta, Ts, ea, Pa, H, LE) {
+    .Call(`_hydroET_PET_Zhou2024`, Rn, Ta, Ts, ea, Pa, H, LE)
 }
 
 cal_es <- function(Ta) {

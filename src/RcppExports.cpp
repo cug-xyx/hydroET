@@ -70,8 +70,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // PET_Zhou2024
-NumericVector PET_Zhou2024(NumericVector Rn, NumericVector Ta, NumericVector Ts, NumericVector ea, NumericVector Pa);
-RcppExport SEXP _hydroET_PET_Zhou2024(SEXP RnSEXP, SEXP TaSEXP, SEXP TsSEXP, SEXP eaSEXP, SEXP PaSEXP) {
+NumericVector PET_Zhou2024(NumericVector Rn, NumericVector Ta, NumericVector Ts, NumericVector ea, NumericVector Pa, NumericVector H, NumericVector LE);
+RcppExport SEXP _hydroET_PET_Zhou2024(SEXP RnSEXP, SEXP TaSEXP, SEXP TsSEXP, SEXP eaSEXP, SEXP PaSEXP, SEXP HSEXP, SEXP LESEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -80,7 +80,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type Ts(TsSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type ea(eaSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type Pa(PaSEXP);
-    rcpp_result_gen = Rcpp::wrap(PET_Zhou2024(Rn, Ta, Ts, ea, Pa));
+    Rcpp::traits::input_parameter< NumericVector >::type H(HSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type LE(LESEXP);
+    rcpp_result_gen = Rcpp::wrap(PET_Zhou2024(Rn, Ta, Ts, ea, Pa, H, LE));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -147,7 +149,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_hydroET_PET_Penman1948", (DL_FUNC) &_hydroET_PET_Penman1948, 5},
     {"_hydroET_PET_Penman1948_max", (DL_FUNC) &_hydroET_PET_Penman1948_max, 5},
     {"_hydroET_PET_Yang2019", (DL_FUNC) &_hydroET_PET_Yang2019, 6},
-    {"_hydroET_PET_Zhou2024", (DL_FUNC) &_hydroET_PET_Zhou2024, 5},
+    {"_hydroET_PET_Zhou2024", (DL_FUNC) &_hydroET_PET_Zhou2024, 7},
     {"_hydroET_cal_es", (DL_FUNC) &_hydroET_cal_es, 1},
     {"_hydroET_cal_lambda", (DL_FUNC) &_hydroET_cal_lambda, 1},
     {"_hydroET_cal_gma", (DL_FUNC) &_hydroET_cal_gma, 2},
