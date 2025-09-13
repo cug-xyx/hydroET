@@ -10,13 +10,13 @@ You can install the hydroET from github:
 remotes::install_github('cug-xyx/hydroET')
 ```
 
-## (Potential) evapotranspiration models
+## PET / ET models
 
 | Function name    | Model name                                                            | Status | Language |
 | ---------------- | --------------------------------------------------------------------- | ------ | -------- |
 | `ET_CR_Ma`       | Calibration-free complementary relationship (CR) model                | ❌     | `R`      |
-| `PET_Penman1948` | Penman 1948 model                                                     | ✅     | `cpp`      |
-| `PET_PT1972`     | Priestley-Taylor model                                                | ✅     | `cpp`      |
+| `PET_Penman1948` | Penman 1948 model                                                     | ✅     | `cpp`    |
+| `PET_PT1972`     | Priestley-Taylor model                                                | ✅     | `cpp`    |
 | `PET_Yang2019`   | Maximum evaporation model                                             | ✅     | `cpp`    |
 | `PET_Zhou2024`   | *Energy-based PET* (PETe)                                             | ✅     | `cpp`    |
 | `ET_summary`     | A `data.frame` containing various types of evapotranspiration results | ❌     |          |

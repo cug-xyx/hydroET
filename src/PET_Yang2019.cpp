@@ -15,9 +15,15 @@ inline double PET_Yang2019_i(
     const double cp = 1.013; // [MJ kg-1 degC-1]
 
     double Ts_K = Ts + T2K;
-    double lambda = 2510.0 - 2.32 * (Ts_K - T2K);
+    double lambda = 2501.0 - 2.32 * (Ts_K - T2K);
 
+    // [0, 1]
     double tau = Rs / Rs_toa;
+    if (!R_finite(tau) || Rcpp::NumericVector::is_na(tau)) {
+        tau = 0.0;
+    } else if (tau > 1.0) {
+        tau = 1.0;
+    }
     double dTa = n1 * std::exp(n2 * tau) + n3 * std::abs(lat);
 
     double Rnl_Ts = EMISSIVITY * SIGMA * (std::pow(Ts_K - dTa, 4) - std::pow(Ts_K, 4));

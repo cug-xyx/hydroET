@@ -1,23 +1,168 @@
 ```{r}
-rn <- 50
-ta <- 25
-pa <- 98
-vpd <- 1.1
-u2 <- 2.34
+library(data.table)
+library(magrittr)
+library(dplyr)
+library(terra)
+```
 
+# 测试GEE平台上计算的PETe与本地计算的PETe是否一致
 
-# hydroTools
+## GEE-PET_Zhou2024
 
+- 异常极值结果过多
+
+```{r}
+r <- rast('E:/ERA5-Land/Forcing/050deg/test_PETe.nc')
+
+r %>% 
+  .[[15]] %>% 
+  t() %>% 
+  flip(direction = 'vertical') %>% 
+  classify(c(-Inf, seq(0, 20, 2.5), Inf)) %>% 
+  plot(col = rcolors::get_color('amwg256'))
+```
+
+## GEE-Forcing
+
+```{r}
+r_forcing <- rast('E:/ERA5-Land/Forcing/050deg/test.nc')
+dates <- time(r_forcing) %>% unique() %>% .[order(.)]
+names(dates) <- seq_along(dates)
+r_forcing <- r_forcing %>% t() %>% flip(direction = 'vertical')
+
+df <- as.data.table(r_forcing, xy=T) %>% 
+  melt(c('x', 'y'))
+
+df <- df %>% 
+  .[, `:=`(
+    var = stringr::str_extract(variable, '(?<=^).*?(?=_[0-9])'),
+    date_index = stringr::str_extract(variable, "(?<=_)[^_]+$") %>% as.numeric(),
+    date = dates[date_index]
+  )] %>% 
+  dcast(x + y + date ~ var, value.var = 'value')
+```
+
+## 计算PETe
+
+```{r}
+df_PET <- df %>% 
+  mutate(
+    lat = y,
+    Rs_toa = hydroTools::cal_Rsi_toa(lat, yday(date)) %>% 
+      hydroTools::MJ_2W(),
+    ea = cal_es(Tdew)
+  ) %>% 
+  mutate(
+    PET_PT1972 = PET_PT1972(Ta, Rn, Pa),
+    PET_Penman1948 = PET_Penman1948(Ta, Rn, U2, VPD, Pa),
+    PET_Yang2019 = PET_Yang2019(Rs, Rns, Rs_toa, Ts, lat, Pa),
+    PET_Zhou2024 = PET_Zhou2024(Rn, Ta, Ts, ea, Pa)
+  ) %>% 
+  select(lon=x, lat, date, tidyselect::starts_with('PET'), -PET_ERA5L)
+
+df_PET %>% 
+  .[date == lubridate::ymd(20240115), -'date'] %>% 
+  rast(crs = 'EPSG:4326') %>% 
+  extend(ext(-180, 180, -90, 90)) %>% 
+  classify(c(-Inf, seq(0, 20, 2.5), Inf)) %>% 
+  plot(col = rcolors::get_color('amwg256'))
+```
+
+## 各个变量的空间分布
+
+```{r}
+df %>% 
+  mutate(
+    lat = y,
+    Rs_toa = hydroTools::cal_Rsi_toa(lat, yday(date)) %>% 
+      hydroTools::MJ_2W(),
+    ea = cal_es(Tdew)
+  ) %>% 
+  .[date == lubridate::ymd(20240101), -'date'] %>% 
+  rast(crs = 'EPSG:4326') %>% 
+  extend(ext(-180, 180, -90, 90)) %>% 
+  plot(maxnl = 100)
+```
+
+## 检查为什么PET_Yang2019在高纬度没有值
+
+```{r}
+df_PET %>% 
+  .[date == lubridate::ymd(20240115), -'date'] %>% 
+  rast(crs = 'EPSG:4326') %>% 
+  as.data.table(xy=T) %>% 
+  .$y %>% max()
+```
+
+## 检查四种PET算法是否正确
+
+- GEE计算结果与本地计算结果一致，怀疑是某些变量的计算错误
+- 怀疑是某些常量混用导致错误
+
+### 首先检查四种PET算法
+
+- `PET_PT1972`与`PET_Penman1948`与`hydroTools`一致，无错
+
+```{r}
+df_diff <- df %>% 
+  mutate(
+    lat = y,
+    Rs_toa = hydroTools::cal_Rsi_toa(lat, yday(date)) %>% 
+      hydroTools::MJ_2W(),
+    ea = cal_es(Tdew)
+  ) %>% 
+  mutate(
+    PET_PT1972 = PET_PT1972(Ta, Rn, Pa),
+    PET_Penman1948 = PET_Penman1948(Ta, Rn, U2, VPD, Pa),
+    PET_Yang2019 = PET_Yang2019(Rs, Rns, Rs_toa, Ts, lat, Pa),
+    PET_Zhou2024 = PET_Zhou2024(Rn, Ta, Ts, ea, Pa),
+    PET_PT1972_hydroTools = hydroTools::ET0_PT72(Rn, Ta, Pa)$ET0,
+    PET_Penman1948_hydroTools = hydroTools::ET0_Penman48(Rn, Ta, Pa, VPD, U2)$ET0,
+    diff_PT1972 = round(PET_PT1972 - PET_PT1972_hydroTools, 4),
+    diff_Penman1948 = round(PET_Penman1948 - PET_Penman1948_hydroTools, 4)
+  )
+
+df_diff %>% 
+  summary()
+```
+
+### 逐变量检查`PET_Yang2019`
+
+- 单位
+- 异常值
+
+> 冬季，北半球高纬度是极夜，没有太阳辐射，因此没有Rs、Rns等，且Rn为负值
+
+```{r}
+df %>% 
+  mutate(
+    lat = y,
+    Rs_toa = hydroTools::cal_Rsi_toa(lat, yday(date)) %>% 
+      hydroTools::MJ_2W(),
+    ea = cal_es(Tdew)
+  ) %>% 
+  mutate(
+    Ts_K = Ts + 273.15,
+    lambda = 2501 - 2.32 * (Ts_K - 273.15), # 此处差三个数量级，但无错
+    lambda_hydroTools = hydroTools::cal_lambda(Ts_K - 273.15),
+    tau = Rs / Rs_toa,
+    tau = ifelse(is.infinite(tau) | is.na(tau), 0, tau) %>% pmin(1),
+  ) %>% 
+  summary()
 ```
 
 ```{r}
-rs <- 
-
-PET_Yang(
-  Rs, Rns, Rs_toa,
-  Ta, Ts, 
-  lat, 
-  Pa = 101.325,
-  e = 0.96
-)
+df %>% 
+  mutate(
+    lat = y,
+    Rs_toa = hydroTools::cal_Rsi_toa(lat, yday(date)) %>% 
+      hydroTools::MJ_2W(),
+    ea = cal_es(Tdew)
+  ) %>% 
+  .[, .(lon=x, lat, date, Rn)] %>% 
+  .[date == lubridate::ymd(20240115), -'date'] %>% 
+  rast(crs = 'EPSG:4326') %>% 
+  extend(ext(-180, 180, -90, 90)) %>% 
+  ifel(. < 0, ., NA) %>% 
+  plot()
 ```
