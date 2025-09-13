@@ -30,13 +30,9 @@ inline double PET_Zhou2024_i(
 
 // [[Rcpp::export]]
 NumericVector PET_Zhou2024(
-    NumericVector Rn,
-    NumericVector Ta,
-    NumericVector Ts,
-    NumericVector ea,
-    NumericVector Pa,
-    NumericVector H,
-    NumericVector LE
+    NumericVector Rn, NumericVector Ta, NumericVector Ts,
+    NumericVector ea, NumericVector Pa,
+    NumericVector H, NumericVector LE
 ) {
   int n = Rn.size();
   if (Ta.size() != n || Ts.size() != n || ea.size() != n || Pa.size() != n || H.size() != n || LE.size() != n) {
