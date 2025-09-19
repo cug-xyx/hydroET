@@ -48,8 +48,6 @@ inline double PET_Penman1948_max_i(
     double gma       = cal_gma_i(Ta, Pa);
     double dlt_Tdry  = cal_delta_i(Tdry);
 
-    double fu = 6.43 * (1.0 + 0.536 * U2) / lambda;  // wind function
-
     double coef_W2mm = 0.0864 / lambda;
     double energy = Rn * coef_W2mm;
 

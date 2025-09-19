@@ -1,0 +1,24 @@
+---
+title: "Introduction to PET calculation"
+author: "Yuxuan Xie"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(tibble.print_min = 5, tibble.print_max = 5)
+```
+
+## Load R package and data
+
+```{r}
+library(hydroET)
+```
+
+```{r}
+plot(1:10)
+```
