@@ -16,9 +16,29 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 ## Load R package and data
 
 ```{r}
-library(hydroET)
+library(data.table)
+library(magrittr)
 ```
 
 ```{r}
-plot(1:10)
+df_temp <- data.table(df_forcing) %>% 
+  .[, .(date, Prcp, Ta, U2, ET = LE / 2.45)] %>% 
+  .[, .(
+    Prcp = sum(Prcp, na.rm=T),
+    Ta = mean(Ta, na.rm=T),
+    U2 = mean(U2, na.rm=T),
+    ET = sum(ET, na.rm=T)
+  ), .(year=year(date))]
+```
+
+```{r}
+ecm(df_temp, y_name = 'ET', x_name = c('Prcp', 'U2', 'Ta'))
+
+df_temp2 <- data.frame(
+  ET = c(NA, NA, 1, NA, 2, 5),
+  Ta = c(NA, NA, 1, NA, 2, 5),
+  U2 = c(NA, NA, 1, NA, 2, 5)
+)
+
+ecm(df_temp2, 'ET', c('Ta', 'U2'))
 ```

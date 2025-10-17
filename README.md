@@ -30,6 +30,10 @@ remotes::install_github('cug-xyx/hydroET')
 | `PET_Zhou2024`   | *Energy-based PET* (PETe)                                             | ✅     | `cpp`    |
 | `ET_summary`     | A `data.frame` containing various types of evapotranspiration results | ❌     |          |
 
+## Attribution Framework
+
+- Elasticity Coefficient Method (ECM)
+
 ## TODO
 
 - [x] Accuracy of inverse function to derive `Tws`and`Twb`
