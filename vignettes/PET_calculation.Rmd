@@ -28,7 +28,8 @@ df_temp <- data.table(df_forcing) %>%
     Ta = mean(Ta, na.rm=T),
     U2 = mean(U2, na.rm=T),
     ET = sum(ET, na.rm=T)
-  ), .(year=year(date))]
+  ), .(year=year(date))] %>% 
+  as.data.frame()
 ```
 
 ```{r}
@@ -41,4 +42,25 @@ df_temp2 <- data.frame(
 )
 
 ecm(df_temp2, 'ET', c('Ta', 'U2'))
+```
+
+```{r}
+df <- df_temp
+y_name <- 'ET'
+x_name <- c('Prcp', 'Ta', 'U2')
+method = "feng2020"
+
+plot(y, type = 'l')
+plot(y_norm, type = 'l')
+```
+
+```{r}
+i <- 3
+plot(x[, i], type = 'l')
+plot(x_norm[, i], type = 'l')
+
+lm(y_norm ~ x_norm[, 1:2])
+MASS::lm.ridge(y_norm ~ x_norm[, 1:2])
+
+rtrend::mkTrend(y_norm)
 ```

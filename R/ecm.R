@@ -15,13 +15,17 @@ ecm <- function(df, y_name, x_name, method = "lu2025") {
   x <- as.matrix(df[x_name])
   nx <- ncol(x)
 
-  if (length(y[!is.na(y)]) < 5) return(
+  is_ok <- complete.cases(y, x)
+  if (sum(is_ok) < 5) return(
     data.frame(
       var = colnames(x), elasticity = NA_real_, p_elast = NA_real_,
       R2_elast = NA_real_, fp_elast = NA_real_, cont_lu2025 = NA_real_,
       cont_perc_lu2025 = NA_real_, cont_perc_li2024 = NA_real_
     )
   )
+
+  y <- y[is_ok]
+  x <- x[is_ok, ]
 
   y_mean <- mean(y, na.rm = TRUE)
   x_mean <- apply(x, 2, mean, na.rm = TRUE)
