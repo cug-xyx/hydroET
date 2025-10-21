@@ -4,13 +4,14 @@
 #' @param y_name y column name
 #' @param x_name x column name(s)
 #' @param method method used to calculate delta value
+#' @param fun_norm fun used to normalize data
 #'
 #' @return a data.frame
 #' 
 #' @references Zhang et al., 2023, Nature Water
 #' 
 #' @export
-ecm <- function(df, y_name, x_name, method = "lu2025") {
+ecm <- function(df, y_name, x_name, method = "lu2025", fun_norm = "zhang2023") {
   y <- df[[y_name]]
   x <- as.matrix(df[x_name])
   nx <- ncol(x)
@@ -30,8 +31,13 @@ ecm <- function(df, y_name, x_name, method = "lu2025") {
   y_mean <- mean(y, na.rm = TRUE)
   x_mean <- apply(x, 2, mean, na.rm = TRUE)
 
-  y_norm <- (y - y_mean) / y
-  x_norm <- apply(x, 2, \(z) (z - mean(z, na.rm = TRUE)) / z)
+  if (fun_norm == "zhang2023") {
+    y_norm <- (y - y_mean) / y
+    x_norm <- apply(x, 2, \(z) (z - mean(z, na.rm = TRUE)) / z)
+  } else if (fun_norm == 'yang2023') {
+    y_norm <- y - y_mean
+    x_norm <- apply(x, 2, \(z) (z - mean(z, na.rm = TRUE)))
+  }
 
   lm_res <- lm(y_norm ~ x_norm) |> summary()
 
