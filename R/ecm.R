@@ -50,7 +50,7 @@ ecm <- function(df, y_name, x_name, method = "lu2025", fun_norm = "zhang2023") {
   )[[1]] |> round(4)
 
   # Contribution (Lu et al., 2025, Earth Future)
-  x_delta <- apply(x, 2, cal_delta, method = method)
+  x_delta <- apply(x_norm, 2, cal_delta, method = method)
   cont_lu2025 <- elasticity * x_delta / x_mean * y_mean
 
   df_res <- data.frame(
